@@ -1,0 +1,58 @@
+﻿生成启动时间为 2019/8/1 16:23:07。
+     1>项目“G:\cppTest\RayTracing\RayTracing\RayTracing.vcxproj”在节点 2 上(Build 个目标)。
+     1>ClCompile:
+         D:\vs2013\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt HitableList.cpp Material.cpp Ray.cpp Sphere.cpp main.cpp vec3.cpp
+         vec3.cpp
+     1>g:\cpptest\raytracing\raytracing\vec3.cpp(27): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+         正在生成代码...
+         正在编译...
+         main.cpp
+     1>g:\cpptest\raytracing\raytracing\camera.h(17): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+     1>g:\cpptest\raytracing\raytracing\camera.h(30): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+     1>g:\cpptest\raytracing\raytracing\material.h(93): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+     1>g:\cpptest\raytracing\raytracing\main.cpp(15): warning C4305: “参数”: 从“double”到“float”截断
+     1>g:\cpptest\raytracing\raytracing\main.cpp(29): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+     1>g:\cpptest\raytracing\raytracing\main.cpp(30): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+     1>g:\cpptest\raytracing\raytracing\main.cpp(30): warning C4305: “参数”: 从“double”到“float”截断
+     1>g:\cpptest\raytracing\raytracing\main.cpp(47): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+     1>g:\cpptest\raytracing\raytracing\main.cpp(48): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+     1>g:\cpptest\raytracing\raytracing\main.cpp(48): warning C4305: “参数”: 从“double”到“float”截断
+     1>g:\cpptest\raytracing\raytracing\main.cpp(49): warning C4305: “参数”: 从“double”到“float”截断
+     1>g:\cpptest\raytracing\raytracing\main.cpp(56): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+     1>g:\cpptest\raytracing\raytracing\main.cpp(56): warning C4305: “参数”: 从“double”到“float”截断
+     1>g:\cpptest\raytracing\raytracing\main.cpp(66): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+     1>g:\cpptest\raytracing\raytracing\main.cpp(68): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+     1>g:\cpptest\raytracing\raytracing\main.cpp(68): warning C4305: “参数”: 从“double”到“float”截断
+     1>g:\cpptest\raytracing\raytracing\main.cpp(72): warning C4305: “参数”: 从“double”到“float”截断
+     1>g:\cpptest\raytracing\raytracing\main.cpp(79): warning C4305: “参数”: 从“double”到“float”截断
+     1>g:\cpptest\raytracing\raytracing\main.cpp(80): warning C4305: “参数”: 从“double”到“float”截断
+     1>g:\cpptest\raytracing\raytracing\main.cpp(95): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+     1>g:\cpptest\raytracing\raytracing\main.cpp(97): warning C4305: “参数”: 从“double”到“float”截断
+     1>g:\cpptest\raytracing\raytracing\main.cpp(98): warning C4305: “参数”: 从“double”到“float”截断
+     1>g:\cpptest\raytracing\raytracing\main.cpp(99): warning C4305: “参数”: 从“double”到“float”截断
+     1>g:\cpptest\raytracing\raytracing\main.cpp(101): warning C4305: “参数”: 从“double”到“float”截断
+     1>g:\cpptest\raytracing\raytracing\main.cpp(109): warning C4305: “初始化”: 从“double”到“float”截断
+         Sphere.cpp
+     1>g:\cpptest\raytracing\raytracing\material.h(93): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+         Material.cpp
+     1>g:\cpptest\raytracing\raytracing\material.h(93): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+     1>g:\cpptest\raytracing\raytracing\material.cpp(14): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+     1>g:\cpptest\raytracing\raytracing\material.cpp(34): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+         正在生成代码...
+         正在跳过...(未检测到相关更改)
+         Ray.cpp
+         HitableList.cpp
+       Link:
+         D:\vs2013\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"G:\cppTest\RayTracing\Debug\RayTracing.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"G:\cppTest\RayTracing\Debug\RayTracing.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"G:\cppTest\RayTracing\Debug\RayTracing.lib" /MACHINE:X86 Debug\drand48.obj
+         Debug\HitableList.obj
+         Debug\main.obj
+         Debug\Material.obj
+         Debug\Ray.obj
+         Debug\Sphere.obj
+         Debug\vec3.obj
+         RayTracing.vcxproj -> G:\cppTest\RayTracing\Debug\RayTracing.exe
+     1>已完成生成项目“G:\cppTest\RayTracing\RayTracing\RayTracing.vcxproj”(Build 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:01.64
