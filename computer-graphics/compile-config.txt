@@ -1,0 +1,1 @@
+dev-Project-Options-Parameters-Linker:-lgraphics64 -luuid -lmsimg32 -lgdi32 -limm32 -lole32 -loleaut32
