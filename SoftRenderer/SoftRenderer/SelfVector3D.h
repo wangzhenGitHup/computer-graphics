@@ -20,6 +20,7 @@ public:
 	void LoadOne();
 	void Normalized();
 	float GetLength()const;
+	float GetSquaredLength()const;
 	_Vector3D GetNormalized()const;
 
 	//线性插值计算
@@ -48,16 +49,31 @@ public:
 	operator const float*() const{ return (const float*)this; }
 
 	//点乘
-	float Dot(const _Vector3D& a, const _Vector3D& b);
+	float Dot(const _Vector3D& a, const _Vector3D& b)const;
 
 	//叉乘
-	_Vector3D Cross(const _Vector3D& a, const _Vector3D& b);
+	_Vector3D Cross(const _Vector3D& a, const _Vector3D& b)const;
 
 	//向量操作
+
+	//绕X轴旋转
 	void RotateX(double angle);
+	_Vector3D GetRotatedX(double angle)const;
+
+	//绕Y轴旋转
 	void RotateY(double angle);
+	_Vector3D GetRotatedY(double angle)const;
+
+	//绕Z轴旋转
 	void RotateZ(double angle);
+	_Vector3D GetRotatedZ(double angle)const;
+
+	//普通旋转
 	void RotateAxis(double angle, const _Vector3D& axis);
+	_Vector3D GetRotatedAxis(double angle, const _Vector3D& axis)const;
+
+	void PackTo01(); //pack to [0, 1] for color
+	_Vector3D GetPackedTo01()const;
 
 private:
 	float _x;
