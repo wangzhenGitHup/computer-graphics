@@ -77,11 +77,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SelfMatrix4x4.cpp" />
     <ClCompile Include="SelfVector2D.cpp" />
     <ClCompile Include="SelfVector3D.cpp" />
+    <ClCompile Include="SelfVector4D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SelfMaths.h" />
+    <ClInclude Include="SelfMatrix4x4.h" />
+    <ClInclude Include="SelfVector4D.h" />
     <ClInclude Include="SelfVector2D.h" />
     <ClInclude Include="SelfVector3D.h" />
   </ItemGroup>

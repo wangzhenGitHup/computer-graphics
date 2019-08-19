@@ -47,7 +47,7 @@ public:
 	operator const float*() const{ return (const float*)this;  }
 
 	//µã³Ë
-	float Dot(const _Vector2D& a, const _Vector2D& b);
+	float Dot(const _Vector2D& a, const _Vector2D& b)const;
 
 private:
 	float _x;

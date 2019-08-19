@@ -123,7 +123,7 @@ _Vector2D _Vector2D::operator+() const
 	return *this;
 }
 
-float _Vector2D::Dot(const _Vector2D& a, const _Vector2D& b)
+float _Vector2D::Dot(const _Vector2D& a, const _Vector2D& b)const
 {
 	return (float)(a._x * b._x + a._y * b._y);
 }

@@ -24,6 +24,12 @@
     <ClCompile Include="SelfVector3D.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="SelfVector4D.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SelfMatrix4x4.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SelfVector2D.h">
@@ -33,6 +39,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="SelfVector3D.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SelfVector4D.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SelfMatrix4x4.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

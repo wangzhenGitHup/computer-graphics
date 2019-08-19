@@ -36,7 +36,7 @@ void _Vector3D::LoadOne()
 void _Vector3D::Normalized()
 {
 	float len = GetLength();
-	if (1 == len || 0 == len)
+	if (1.0f == len || FLT_IS_ZERO(len))
 	{
 		return;
 	}
@@ -184,7 +184,7 @@ _Vector3D _Vector3D::GetRotatedAxis(double angle, const _Vector3D& axis) const
 	rotMatrixRow2._y = u._y * u._z * oneMinusCosAngle + sinAngle * u._x;
 	rotMatrixRow2._z = u._z * u._z + cosAngle * (1 - u._z * u._z);
 
-	return _Vector3D(this->Dot(rotMatrixRow0, rotMatrixRow0),
+	return _Vector3D(Dot(rotMatrixRow0, rotMatrixRow0),
 		Dot(rotMatrixRow1, rotMatrixRow1),
 		Dot(rotMatrixRow2, rotMatrixRow2));
 }
