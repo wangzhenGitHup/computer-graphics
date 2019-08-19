@@ -13,39 +13,42 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{b6a83236-021b-4f96-938d-e13216a31869}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="SelfVector2D.cpp">
-      <Filter>源文件</Filter>
+    <ClCompile Include="Math\SelfMatrix4x4.cpp">
+      <Filter>Math</Filter>
     </ClCompile>
-    <ClCompile Include="SelfVector3D.cpp">
-      <Filter>源文件</Filter>
+    <ClCompile Include="Math\SelfVector2D.cpp">
+      <Filter>Math</Filter>
     </ClCompile>
-    <ClCompile Include="SelfVector4D.cpp">
-      <Filter>源文件</Filter>
+    <ClCompile Include="Math\SelfVector3D.cpp">
+      <Filter>Math</Filter>
     </ClCompile>
-    <ClCompile Include="SelfMatrix4x4.cpp">
-      <Filter>源文件</Filter>
+    <ClCompile Include="Math\SelfVector4D.cpp">
+      <Filter>Math</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SelfVector2D.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="Math\SelfMaths.h">
+      <Filter>Math</Filter>
     </ClInclude>
-    <ClInclude Include="SelfMaths.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="Math\SelfMatrix4x4.h">
+      <Filter>Math</Filter>
     </ClInclude>
-    <ClInclude Include="SelfVector3D.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="Math\SelfVector2D.h">
+      <Filter>Math</Filter>
     </ClInclude>
-    <ClInclude Include="SelfVector4D.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="Math\SelfVector3D.h">
+      <Filter>Math</Filter>
     </ClInclude>
-    <ClInclude Include="SelfMatrix4x4.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="Math\SelfVector4D.h">
+      <Filter>Math</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

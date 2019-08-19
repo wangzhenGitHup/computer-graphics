@@ -13,6 +13,7 @@ public:
 	Matrix4x4(const Matrix4x4& matrix);
 	~Matrix4x4(){}
 
+	//µ•Œªæÿ’Û
 	void LoadIdentity();
 
 private:
