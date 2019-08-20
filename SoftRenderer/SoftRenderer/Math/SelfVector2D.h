@@ -15,8 +15,11 @@ public:
 	void SetY(float y);
 	float GetX()const;
 	float GetY()const;
+	//归一化向量
 	void Normalized();
+	//得到向量的模
 	float GetLength()const;
+	//得到归一化向量
 	_Vector2D GetNormalized()const;
 
 	//线性插值计算

@@ -21,14 +21,20 @@ public:
 	float GetY()const{ return _y; }
 	float GetZ()const{ return _z; }
 	float GetW()const{ return _w; }
-
+	//加载零向量
 	void LoadZero();
+	//加载单位向量
 	void LoadOne();
+	//线性插值
 	_Vector4D Lerp(const _Vector4D& v4, float factor)const;
 	_Vector4D QuadraticInterpolate(const _Vector4D& a, const _Vector4D& b, float factor)const;
+	//归一化向量
 	void Normalized();
+	//得到归一化向量
 	_Vector3D GetNormalized()const;
+	//得到向量的模
 	float GetLength()const;
+	//得到向量的模的平方
 	float GetSquaredLength()const;
 
 	void RotateX(double angle);
