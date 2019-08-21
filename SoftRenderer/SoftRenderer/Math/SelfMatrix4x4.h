@@ -103,7 +103,7 @@ public:
 	void SetOrtho(float left, float right, float bottom, float top, float near, float far);
 	//投影矩阵
 	void SetPerspective(float fovy, float aspect, float near, float far);
-
+	void SetPerspective(float left, float righ, float bottom, float top, float near, float far);
 	//设置矩阵部门的平移和旋转
 	void SetTranslationPart(const _Vector3D& v3);
 	void SetRotationPartEuler(const double angleX, const double angleY, const double angleZ);

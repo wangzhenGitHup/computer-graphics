@@ -236,6 +236,8 @@ Matrix4x4 Matrix4x4::GetInverseTranspose()const
 {
 	Matrix4x4 result;
 	//TODO:
+
+	return result;
 }
 
 void Matrix4x4::AffineInverse()
@@ -247,6 +249,9 @@ Matrix4x4 Matrix4x4::GetAffineInverse() const
 {
 	Matrix4x4 result;
 	//TODO:
+
+
+	return result;
 }
 
 void Matrix4x4::AffineInverseTranspose()
@@ -258,6 +263,8 @@ Matrix4x4 Matrix4x4::GetAffineInverseTranspose()
 {
 	Matrix4x4 result;
 	//TODO:
+
+	return result;
 }
 
 void Matrix4x4::SetTranslation(const _Vector3D& translation)
@@ -283,46 +290,137 @@ void Matrix4x4::SetUniformScale(const float factor)
 void Matrix4x4::SetRotationAxis(const double angle, const _Vector3D& axis)
 {
 	LoadIdentity();
+	//TODO:
 }
 
 void Matrix4x4::SetRotationX(const double angle)
 {
+	//  ↑ z
+	//  |     .p'(y', z')
+	//  |    .      .p(y, z)
+	//  |   .     .
+	//  |  .  b .
+	//  | .   .
+	//  |.  . 
+	//  | .    a
+	//  ------------------------>y
+	//  y = r*cosa;  z = r*sina;
+	//  y' = ax + by + cz;  z' = dx + ey + fz; x' = x;
+	//  y'= r*cos(a+b) = r*cosa*cosb - r*sina*sinb = y*cosb - z*sinb;
+	//  z'= r*sin(a+b) = r*sina*cosb + r*sinb*cosa = z*cosb + y*sinb;
+	//  |x'|   |1     0      0  0|   |x|
+	//  |y'| = |0  cosb  -sinb  0| * |y| 
+	//  |z'|   |0  sinb   cosb  0|   |z| 
+	//  |1 |   |0   0      0    1|   |1|
+	//转成行向量
+	//                                     |1   0      0    0|
+	//  [x'  y'  z'  1] = [x  y  z  1]  *  |0  cosb   sinb  0|
+	//                                     |0  -sinb  cosb  0|
+	//                                     |0   0      0    1|
 	LoadIdentity();
+	_elements[5] = (float)cos(M_PI * angle / 180);
+	_elements[6] = (float)sin(M_PI * angle / 180);
+	_elements[9] = -_elements[6];
+	_elements[10] = _elements[5];
 }
 
 void Matrix4x4::SetRotationY(const double angle)
 {
+	//  ↑ x
+	//  |     .p'(z', x')
+	//  |    .      .p(z, x)
+	//  |   .     .
+	//  |  .  b .
+	//  | .   .
+	//  |.  . 
+	//  | .    a
+	//  ------------------------>z
+	//  z = r*cosa;  x = r*sina;
+	//  z' = ax + by + cz;  x' = dx + ey + fz; y' = y;
+	//  z'= r*cos(a+b) = r*cosa*cosb - r*sina*sinb = z*cosb - x*sinb;
+	//  x'= r*sin(a+b) = r*sina*cosb + r*sinb*cosa = x*cosb + z*sinb;
+	//  |x'|   |cosb  0   sinb  0|    |x|
+	//  |y'| = |0     1      0  0| *  |y|
+	//  |z'|   |-sinb 0   cosb  0|    |z|
+	//  |1 |   |0     0     0   1|    |1|
+	//转成行向量
+	//                                     |cosb  0  -sinb  0|
+	//  [x'  y'  z'  1] = [x  y  z  1]  *  |0     1    0    0|
+	//                                     |sinb  0   cosb  0|
+	//                                     |0     0    0    1|
 	LoadIdentity();
+	_elements[0] = (float)cos(M_PI * angle / 180);
+	_elements[2] = -(float)sin(M_PI * angle / 180);
+	_elements[8] = -_elements[2];
+	_elements[10] = _elements[0];
 }
 
 void Matrix4x4::SetRotationZ(const double angle)
 {
+	//  ↑ y
+	//  |     .p'(x', y')
+	//  |    .      .p(x, y)
+	//  |   .     .
+	//  |  .  b .
+	//  | .   .
+	//  |.  . 
+	//  | .    a
+	//  ------------------------>x
+	//  x = r*cosa;  y = r*sina;
+	//  x' = ax + by + cz;  y' = dx + ey + fz; z' = z;
+	//  x'= r*cos(a+b) = r*cosa*cosb - r*sina*sinb = x*cosb - y*sinb;
+	//  y'= r*sin(a+b) = r*sina*cosb + r*sinb*cosa = y*cosb + x*sinb;
+	//  |x'|   |cosb -sinb 0   0|   |x|
+	//  |y'| = |sinb cosb  0   0| * |y|
+	//  |z'|   |0     0    1   0|   |z|
+	//  |1 |   |0     0    0   1|   |1|
+	//转成行向量
+	//                                     |cosb   sinb  0  0|
+	//  [x'  y'  z'  1] = [x  y  z  1]  *  |-sinb  cosb  0  0|
+	//                                     |0       0    1  0|
+	//                                     |0       0    0  1|
 	LoadIdentity();
+	_elements[0] = (float)cos(M_PI * angle / 180);
+	_elements[1] = (float)sin(M_PI * angle / 180);
+	_elements[4] = -_elements[1];
+	_elements[5] = _elements[0];
 }
 
 void Matrix4x4::SetRotationEuler(const double angleX, const double angleY, const double angleZ)
 {
 	LoadIdentity();
+	SetRotationPartEuler(angleX, angleY, angleZ);
 }
 
 void Matrix4x4::SetOrtho(float left, float right, float bottom, float top, float near, float far)
 {
-
+	LoadIdentity();
+	_elements[0] = 2.0f / (right - left);
+	_elements[5] = 2.0f / (top - bottom);
+	_elements[10] = 2.0f / (far - near);
+	//TODO:
 }
 
 void Matrix4x4::SetPerspective(float fovy, float aspect, float near, float far)
 {
+	//TODO:
+}
 
+void Matrix4x4::SetPerspective(float left, float righ, float bottom, float top, float near, float far)
+{
+	//TODO:
 }
 
 void Matrix4x4::SetTranslationPart(const _Vector3D& v3)
 {
-
+	_elements[12] = v3.GetX();
+	_elements[13] = v3.GetY();
+	_elements[14] = v3.GetZ();
 }
 
 void Matrix4x4::SetRotationPartEuler(const double angleX, const double angleY, const double angleZ)
 {
-
+	//TODO:
 }
 
 void Matrix4x4::SetRotationPartEuler(const _Vector3D& v3)
@@ -416,7 +514,7 @@ void Matrix4x4::operator*=(const Matrix4x4& matrix)
 
 Matrix4x4 Matrix4x4::operator*(const Matrix4x4& matrix) const
 {
-
+	//TODO:
 }
 
 Matrix4x4 Matrix4x4::operator*(const float v) const
