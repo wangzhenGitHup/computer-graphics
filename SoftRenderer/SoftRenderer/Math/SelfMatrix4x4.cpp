@@ -295,6 +295,7 @@ void Matrix4x4::SetRotationAxis(const double angle, const _Vector3D& axis)
 
 void Matrix4x4::SetRotationX(const double angle)
 {
+	//左手坐标系
 	//  ↑ z
 	//  |     .p'(y', z')
 	//  |    .      .p(y, z)
@@ -326,6 +327,7 @@ void Matrix4x4::SetRotationX(const double angle)
 
 void Matrix4x4::SetRotationY(const double angle)
 {
+	//左手坐标系
 	//  ↑ x
 	//  |     .p'(z', x')
 	//  |    .      .p(z, x)
@@ -357,6 +359,7 @@ void Matrix4x4::SetRotationY(const double angle)
 
 void Matrix4x4::SetRotationZ(const double angle)
 {
+	//左手坐标系
 	//  ↑ y
 	//  |     .p'(x', y')
 	//  |    .      .p(x, y)
