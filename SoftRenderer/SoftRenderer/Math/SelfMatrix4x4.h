@@ -35,6 +35,7 @@ public:
 	Matrix4x4 operator-(const Matrix4x4& matrix)const;
 	Matrix4x4 operator*(const Matrix4x4& matrix)const;
 	Matrix4x4 operator*(const float v)const;
+	_Vector4D operator*(const _Vector4D& v4)const;
 	Matrix4x4 operator/(const float v)const;
 	void operator+=(const Matrix4x4& matrix);
 	void operator-=(const Matrix4x4& matrix);

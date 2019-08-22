@@ -517,7 +517,94 @@ void Matrix4x4::operator*=(const Matrix4x4& matrix)
 
 Matrix4x4 Matrix4x4::operator*(const Matrix4x4& matrix) const
 {
-	//TODO:
+	return Matrix4x4(
+		(matrix._elements[0] * _elements[0] +
+		matrix._elements[1] * _elements[4] +
+		matrix._elements[2] * _elements[8] +
+		matrix._elements[3] * _elements[12]
+		),
+		(matrix._elements[0] * _elements[1] +
+		matrix._elements[1] * _elements[5] +
+		matrix._elements[2] * _elements[9] +
+		matrix._elements[3] * _elements[13]
+		),
+		(matrix._elements[0] * _elements[2] +
+		matrix._elements[1] * _elements[6] +
+		matrix._elements[2] * _elements[10] +
+		matrix._elements[3] * _elements[14]
+		),
+		(matrix._elements[0] * _elements[3] +
+		matrix._elements[1] * _elements[7] +
+		matrix._elements[2] * _elements[11] +
+		matrix._elements[3] * _elements[15]),
+
+
+
+		(matrix._elements[4] * _elements[0] +
+		matrix._elements[5] * _elements[4] +
+		matrix._elements[6] * _elements[8] +
+		matrix._elements[7] * _elements[12]
+		),
+		(matrix._elements[4] * _elements[1] +
+		matrix._elements[5] * _elements[5] +
+		matrix._elements[6] * _elements[9] +
+		matrix._elements[7] * _elements[13]
+		),
+		(matrix._elements[4] * _elements[2] +
+		matrix._elements[5] * _elements[6] +
+		matrix._elements[6] * _elements[10] +
+		matrix._elements[7] * _elements[14]
+		),
+		(matrix._elements[4] * _elements[3] +
+		matrix._elements[5] * _elements[7] +
+		matrix._elements[6] * _elements[11] +
+		matrix._elements[6] * _elements[15]
+		),
+
+
+		(matrix._elements[8] * _elements[0] +
+		matrix._elements[9] * _elements[4] +
+		matrix._elements[10] * _elements[8] +
+		matrix._elements[11] * _elements[12]
+		),
+		(matrix._elements[8] * _elements[1] +
+		matrix._elements[9] * _elements[5] +
+		matrix._elements[10] * _elements[9] +
+		matrix._elements[11] * _elements[13]
+		),
+		(matrix._elements[8] * _elements[2] +
+		matrix._elements[9] * _elements[6] +
+		matrix._elements[10] * _elements[10] +
+		matrix._elements[11] * _elements[14]
+		),
+		(matrix._elements[8] * _elements[3] +
+		matrix._elements[9] * _elements[7] +
+		matrix._elements[10] * _elements[11] +
+		matrix._elements[11] * _elements[15]
+		),
+
+		(matrix._elements[12] * _elements[0] +
+		matrix._elements[13] * _elements[4] +
+		matrix._elements[14] * _elements[8] +
+		matrix._elements[15] * _elements[12]
+		),
+		(matrix._elements[12] * _elements[1] +
+		matrix._elements[13] * _elements[5] +
+		matrix._elements[14] * _elements[9] +
+		matrix._elements[15] * _elements[13]
+		),
+		(matrix._elements[12] * _elements[2] +
+		matrix._elements[13] * _elements[6] +
+		matrix._elements[14] * _elements[10] +
+		matrix._elements[15] * _elements[14]
+		),
+		(matrix._elements[12] * _elements[3] +
+		matrix._elements[13] * _elements[7] +
+		matrix._elements[14] * _elements[11] +
+		matrix._elements[15] * _elements[15]
+		)
+
+		);
 }
 
 Matrix4x4 Matrix4x4::operator*(const float v) const
@@ -538,6 +625,57 @@ Matrix4x4 Matrix4x4::operator*(const float v) const
 		_elements[13] * v,
 		_elements[14] * v,
 		_elements[15] * v);
+}
+
+_Vector4D Matrix4x4::operator*(const _Vector4D& v4) const
+{
+	//每一行平移部分为0，w为1
+	if (FLT_EQUAL(_elements[3], 0.0f) &&
+		FLT_EQUAL(_elements[7], 0.0f) &&
+		FLT_EQUAL(_elements[11], 0.0f) &&
+		FLT_EQUAL(_elements[15], 1.0f))
+	{
+		return _Vector4D(
+			_elements[0] * v4.GetX() + 
+			_elements[4] * v4.GetY() + 
+			_elements[8] * v4.GetZ() + 
+			_elements[12] * v4.GetW(),
+
+			_elements[1] * v4.GetX() + 
+			_elements[5] * v4.GetY() +
+			_elements[9] * v4.GetZ() +
+			_elements[13] * v4.GetW(),
+
+			_elements[2] * v4.GetX() + 
+			_elements[6] * v4.GetY() +
+			_elements[10] * v4.GetZ() +
+			_elements[14] * v4.GetW(),
+
+			v4.GetW()
+			);
+	}
+
+	return _Vector4D(
+		_elements[0] * v4.GetX() +
+		_elements[4] * v4.GetY() +
+		_elements[8] * v4.GetZ() +
+		_elements[12] * v4.GetW(),
+
+		_elements[1] * v4.GetX() +
+		_elements[5] * v4.GetY() +
+		_elements[9] * v4.GetZ() +
+		_elements[13] * v4.GetW(),
+
+		_elements[2] * v4.GetX() +
+		_elements[6] * v4.GetY() +
+		_elements[10] * v4.GetZ() +
+		_elements[14] * v4.GetW(),
+
+		_elements[3] * v4.GetX() +
+		_elements[7] * v4.GetY() +
+		_elements[11] * v4.GetZ() +
+		_elements[15] * v4.GetW()
+		);
 }
 
 bool Matrix4x4::operator==(const Matrix4x4& matrix) const
