@@ -1,4 +1,4 @@
-#include "SelfMatrix4x4.h"
+﻿#include "SelfMatrix4x4.h"
 #include "SelfVector4D.h"
 #include "SelfVector3D.h"
 #include "SelfMaths.h"
@@ -162,7 +162,7 @@ _Vector3D Matrix4x4::GetRotatedVector3D(const _Vector3D& v3) const
 
 _Vector3D Matrix4x4::GetInverseRotatedVector3D(const _Vector3D& v3) const
 {
-	//��ת�仯�������ֱ��ת�þ�����
+	//旋转变化的逆矩阵直接转置就行了
 	return _Vector3D(
 		_elements[0] * v3.GetX() + _elements[1] * v3.GetY() + _elements[2] * v3.GetZ(),
 		_elements[4] * v3.GetX() + _elements[5] * v3.GetY() + _elements[6] * v3.GetZ(),
@@ -191,7 +191,7 @@ _Vector3D Matrix4x4::GetTranslatedVector3D(const _Vector3D& v3) const
 
 _Vector3D Matrix4x4::GetInverseTranslatedVector3D(const _Vector3D& v3) const
 {
-	//ƽ�Ʊ仯�������ֱ�Ӽ�ȥԪ��ֵ
+	//平移变化的逆矩阵直接减去元素值
 	return _Vector3D(
 		v3.GetX() - _elements[12],
 		v3.GetY() - _elements[13],
@@ -218,7 +218,7 @@ void Matrix4x4::Transpose()
 
 Matrix4x4 Matrix4x4::GetTranspose() const
 {
-	//�����û�
+	//行列置换
 	return Matrix4x4(
 		_elements[0], _elements[4], _elements[8], _elements[12],
 		_elements[1], _elements[5], _elements[9], _elements[13],
@@ -295,8 +295,8 @@ void Matrix4x4::SetRotationAxis(const double angle, const _Vector3D& axis)
 
 void Matrix4x4::SetRotationX(const double angle)
 {
-	//��������ϵ
-	//  �� z
+	//左手坐标系
+	//  ↑ z
 	//  |     .p'(y', z')
 	//  |    .      .p(y, z)
 	//  |   .     .
@@ -313,7 +313,7 @@ void Matrix4x4::SetRotationX(const double angle)
 	//  |y'| = |0  cosb  -sinb  0| * |y| 
 	//  |z'|   |0  sinb   cosb  0|   |z| 
 	//  |1 |   |0   0      0    1|   |1|
-	//ת��������
+	//转成行向量
 	//                                     |1   0      0    0|
 	//  [x'  y'  z'  1] = [x  y  z  1]  *  |0  cosb   sinb  0|
 	//                                     |0  -sinb  cosb  0|
@@ -327,8 +327,8 @@ void Matrix4x4::SetRotationX(const double angle)
 
 void Matrix4x4::SetRotationY(const double angle)
 {
-	//��������ϵ
-	//  �� x
+	//左手坐标系
+	//  ↑ x
 	//  |     .p'(z', x')
 	//  |    .      .p(z, x)
 	//  |   .     .
@@ -345,7 +345,7 @@ void Matrix4x4::SetRotationY(const double angle)
 	//  |y'| = |0     1      0  0| *  |y|
 	//  |z'|   |-sinb 0   cosb  0|    |z|
 	//  |1 |   |0     0     0   1|    |1|
-	//ת��������
+	//转成行向量
 	//                                     |cosb  0  -sinb  0|
 	//  [x'  y'  z'  1] = [x  y  z  1]  *  |0     1    0    0|
 	//                                     |sinb  0   cosb  0|
@@ -359,8 +359,8 @@ void Matrix4x4::SetRotationY(const double angle)
 
 void Matrix4x4::SetRotationZ(const double angle)
 {
-	//��������ϵ
-	//  �� y
+	//左手坐标系
+	//  ↑ y
 	//  |     .p'(x', y')
 	//  |    .      .p(x, y)
 	//  |   .     .
@@ -377,7 +377,7 @@ void Matrix4x4::SetRotationZ(const double angle)
 	//  |y'| = |sinb cosb  0   0| * |y|
 	//  |z'|   |0     0    1   0|   |z|
 	//  |1 |   |0     0    0   1|   |1|
-	//ת��������
+	//转成行向量
 	//                                     |cosb   sinb  0  0|
 	//  [x'  y'  z'  1] = [x  y  z  1]  *  |-sinb  cosb  0  0|
 	//                                     |0       0    1  0|
@@ -397,10 +397,73 @@ void Matrix4x4::SetRotationEuler(const double angleX, const double angleY, const
 
 void Matrix4x4::SetOrtho(float left, float right, float bottom, float top, float near, float far)
 {
+	//推导过程： 左手坐标系
+	//              ▴ y
+	//              │
+	//              │     
+	//              │     /z
+	//              │    /
+	//              |   /
+	//              |  /
+	//              | /
+	//              |/
+	//               ―――――――――――――――――――▸x
+
+	//从(-1, -1, 0)到(1, 1, 1),原点在立方体正前面面中心上
+	//
+	//    v6----- v5
+	//   /|      /|
+	//  v1------v0|        
+	//  | |     | |
+	//  | |v7---|-|v4
+	//  |/      |/
+	//  v2------v3
+	//
+	//上图是个规范视域体,它的轴与坐标系轴平行。将物体映射到改视域体中(投影空间)
+	//先考虑x轴的，要将其映射在[-1,1]区间内：
+	//left <= x <= right;
+	//在进行缩放前，将左边归0，即将x坐标减去left即得：
+	//0 <= x - left <= right - left;
+	//因为想要投影后的区间长度为2[-1,1],而right-left就是映射物体的宽度且肯定大于0
+	//不等式两边同时除以(right-left)可得：
+	//0 <= x - left /(right - left) <= 1;再缩放到需要的尺寸(区间长度2)
+	//不等式两边同时乘以2可得：
+	//0 <= 2(x - left) / (right - left) <= 2;
+	//因为区间为[-1,1]，所以不等式两边再次减去1可得：
+	//-1 <= 2x - right - left / (right - left) <= 1;
+	//上面的式子的中间部分就是将3d空间中的x转换到规范视域体的最终算式，可得
+	//x' = 2x / (right - left) - [(right + left) / (right - left)];
+
+
+	//再来计算y轴的，同理可得
+	//-1 <= 2y - (top - bottom) / (top - bottom) <= 1;
+	//y' = 2y / (top - bottom) - [(top + bottom) / (top - bottom)];
+
+
+	//再来计算z轴的，因为z轴的规范区间为[0,1]，所以
+	//near <= z <= far;
+	//不等式减去near可得：
+	//0 <= z - near <= far - near;
+	//因为far - near肯定大于0的，所以不等式两边同时除以 far - near 可得：
+	// 0 <= z - near / (far - near) <= 1;
+	// z' = z / (far - near) - near / (far - near)
+	//写成矩阵形式:(right = R, left = L, top = T, bottom = B, far = F, near = N)
+	// |  2/(R-L)     0      0       -(R+L)/(R-L) |
+	// |  0        2/(T-B)   0       -(T+B)/(T-B) |
+	// |  0           0    1/(F-N)   -N/(F-N)     |
+	// |  0           0      0          1         |
+	//这里转置下就行了
+	// | 2(R-L)         0            0           0 |
+	// |   0           2/(T-B)       0           0 |
+	// |   0            0            1/(F-N)     0 |
+	// | -(R+L)/(R-L)  -(T+B)/(T-B)  -N/(F-N)    1 |
 	LoadIdentity();
 	_elements[0] = 2.0f / (right - left);
+	
 	_elements[5] = 2.0f / (top - bottom);
-	_elements[10] = 2.0f / (far - near);
+	_elements[10] = 1.0f / (far - near);
+
+	_elements[12] = -(right + left) / (right - left);
 	//TODO:
 }
 
@@ -484,6 +547,7 @@ void Matrix4x4::operator/=(const float v)
 
 _Vector4D Matrix4x4::operator*=(const _Vector4D& v4) const
 {
+	//主要是为了减少乘法运算
 	if (_elements[3] == 0.0f && 
 		_elements[7] == 0.0f && 
 		_elements[11] == 0.0f && 
@@ -629,7 +693,7 @@ Matrix4x4 Matrix4x4::operator*(const float v) const
 
 _Vector4D Matrix4x4::operator*(const _Vector4D& v4) const
 {
-	//ÿһ��ƽ�Ʋ���Ϊ0��wΪ1
+	//平移部分为0，w为1
 	if (FLT_EQUAL(_elements[3], 0.0f) &&
 		FLT_EQUAL(_elements[7], 0.0f) &&
 		FLT_EQUAL(_elements[11], 0.0f) &&
