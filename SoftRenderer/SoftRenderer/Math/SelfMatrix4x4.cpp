@@ -440,32 +440,36 @@ void Matrix4x4::SetOrtho(float left, float right, float bottom, float top, float
 	//y' = 2y / (top - bottom) - [(top + bottom) / (top - bottom)];
 
 
-	//再来计算z轴的，因为z轴的规范区间为[0,1]，所以
+	//再来计算z轴的，D3D标准为[0,1]因为z轴的规范区间为[-1,1]OpenGL标准，所以
 	//near <= z <= far;
 	//不等式减去near可得：
 	//0 <= z - near <= far - near;
 	//因为far - near肯定大于0的，所以不等式两边同时除以 far - near 可得：
 	// 0 <= z - near / (far - near) <= 1;
-	// z' = z / (far - near) - near / (far - near)
+	//缩放到规范区间,不等式同时乘以2可得：
+	// 0 <= 2(z - near) / (far - near) <= 2;
+	//不等式同时减去1可得：
+	//-1 <= 2(z - near) / (far - near) - 1 <= 1;==>
+	// z' = 2z / (far - near) - [(far + near)] / [(far - near)];
 	//写成矩阵形式:(right = R, left = L, top = T, bottom = B, far = F, near = N)
 	// |  2/(R-L)     0      0       -(R+L)/(R-L) |
 	// |  0        2/(T-B)   0       -(T+B)/(T-B) |
-	// |  0           0    1/(F-N)   -N/(F-N)     |
+	// |  0           0    2/(F-N)   -(F+N)/(F-N)     |
 	// |  0           0      0          1         |
 	//这里转置下就行了
 	// | 2(R-L)         0            0           0 |
 	// |   0           2/(T-B)       0           0 |
-	// |   0            0            1/(F-N)     0 |
-	// | -(R+L)/(R-L)  -(T+B)/(T-B)  -N/(F-N)    1 |
+	// |   0            0            2/(F-N)     0 |
+	// | -(R+L)/(R-L)  -(T+B)/(T-B)  -(F+N)/(F-N)    1 |
 	LoadIdentity();
 	_elements[0] = 2.0f / (right - left);
 	
 	_elements[5] = 2.0f / (top - bottom);
-	_elements[10] = 1.0f / (far - near);
+	_elements[10] = 2.0f / (far - near);
 
 	_elements[12] = -(right + left) / (right - left);
 	_elements[13] = -(top + bottom) / (top - bottom);
-	_elements[14] = -near / (far - near);
+	_elements[14] = -(far + near) / (far - near);
 	//TODO:
 }
 
