@@ -409,7 +409,7 @@ void Matrix4x4::SetOrtho(float left, float right, float bottom, float top, float
 	//              |/
 	//               ―――――――――――――――――――▸x
 
-	//从(-1, -1, 0)到(1, 1, 1),原点在立方体正前面面中心上
+	//从(-1, -1, -1)到(1, 1, 1),原点在立方体正前面面中心上
 	//
 	//    v6----- v5
 	//   /|      /|
@@ -470,7 +470,6 @@ void Matrix4x4::SetOrtho(float left, float right, float bottom, float top, float
 	_elements[12] = -(right + left) / (right - left);
 	_elements[13] = -(top + bottom) / (top - bottom);
 	_elements[14] = -(far + near) / (far - near);
-	//TODO:
 }
 
 void Matrix4x4::SetPerspective(float fovy, float aspect, float near, float far)
