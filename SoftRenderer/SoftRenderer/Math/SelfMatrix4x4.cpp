@@ -419,17 +419,17 @@ void Matrix4x4::SetOrtho(float left, float right, float bottom, float top, float
 	//  |/      |/
 	//  v2------v3
 	//
-	//上图是个规范视域体,它的轴与坐标系轴平行。将物体映射到改视域体中(投影空间)
+	//上图是个规范视域体,它的轴与坐标系轴平行。将物体映射到该视域体中(投影空间)
 	//先考虑x轴的，要将其映射在[-1,1]区间内：
 	//left <= x <= right;
 	//在进行缩放前，将左边归0，即将x坐标减去left即得：
 	//0 <= x - left <= right - left;
 	//因为想要投影后的区间长度为2[-1,1],而right-left就是映射物体的宽度且肯定大于0
-	//不等式两边同时除以(right-left)可得：
+	//不等式同时除以(right-left)可得：
 	//0 <= x - left /(right - left) <= 1;再缩放到需要的尺寸(区间长度2)
-	//不等式两边同时乘以2可得：
+	//不等式同时乘以2可得：
 	//0 <= 2(x - left) / (right - left) <= 2;
-	//因为区间为[-1,1]，所以不等式两边再次减去1可得：
+	//因为区间为[-1,1]，所以不等式再次减去1可得：
 	//-1 <= 2x - right - left / (right - left) <= 1;
 	//上面的式子的中间部分就是将3d空间中的x转换到规范视域体的最终算式，可得
 	//x' = 2x / (right - left) - [(right + left) / (right - left)];
@@ -464,6 +464,8 @@ void Matrix4x4::SetOrtho(float left, float right, float bottom, float top, float
 	_elements[10] = 1.0f / (far - near);
 
 	_elements[12] = -(right + left) / (right - left);
+	_elements[13] = -(top + bottom) / (top - bottom);
+	_elements[14] = -near / (far - near);
 	//TODO:
 }
 
