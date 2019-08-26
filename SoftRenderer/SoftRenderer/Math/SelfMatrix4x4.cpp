@@ -409,7 +409,7 @@ void Matrix4x4::SetOrtho(float left, float right, float bottom, float top, float
 	//              |/
 	//               ―――――――――――――――――――▸x
 
-	//从(-1, -1, -1)到(1, 1, 1),原点在立方体正前面面中心上
+	//从(-1, -1, 0)到(1, 1, 1),原点在立方体前面正中心上
 	//
 	//    v6----- v5
 	//   /|      /|
@@ -440,46 +440,130 @@ void Matrix4x4::SetOrtho(float left, float right, float bottom, float top, float
 	//y' = 2y / (top - bottom) - [(top + bottom) / (top - bottom)];
 
 
-	//再来计算z轴的，D3D标准为[0,1]因为z轴的规范区间为[-1,1]OpenGL标准，所以
+	//再来计算z轴的，D3D标准为[0,1]OpenGL标准为[-1,1]，采用D3D标准所以
 	//near <= z <= far;
 	//不等式减去near可得：
 	//0 <= z - near <= far - near;
-	//因为far - near肯定大于0的，所以不等式两边同时除以 far - near 可得：
+	//因为far - near肯定大于0的，所以不等式同时除以 far - near 可得：
 	// 0 <= z - near / (far - near) <= 1;
-	//缩放到规范区间,不等式同时乘以2可得：
-	// 0 <= 2(z - near) / (far - near) <= 2;
-	//不等式同时减去1可得：
-	//-1 <= 2(z - near) / (far - near) - 1 <= 1;==>
-	// z' = 2z / (far - near) - [(far + near)] / [(far - near)];
+	// z' = z - near / far - near;
 	//写成矩阵形式:(right = R, left = L, top = T, bottom = B, far = F, near = N)
 	// |  2/(R-L)     0      0       -(R+L)/(R-L) |
 	// |  0        2/(T-B)   0       -(T+B)/(T-B) |
-	// |  0           0    2/(F-N)   -(F+N)/(F-N)     |
+	// |  0           0    1/(F-N)   -N/(F-N) |
 	// |  0           0      0          1         |
 	//这里转置下就行了
-	// | 2(R-L)         0            0           0 |
-	// |   0           2/(T-B)       0           0 |
-	// |   0            0            2/(F-N)     0 |
-	// | -(R+L)/(R-L)  -(T+B)/(T-B)  -(F+N)/(F-N)    1 |
+	// | 2(R-L)         0            0               0 |
+	// |   0           2/(T-B)       0               0 |
+	// |   0            0            1/(F-N)         0 |
+	// | -(R+L)/(R-L)  -(T+B)/(T-B)  -N/(F-N)    1 |
 	LoadIdentity();
 	_elements[0] = 2.0f / (right - left);
 	
 	_elements[5] = 2.0f / (top - bottom);
-	_elements[10] = 2.0f / (far - near);
+	_elements[10] = 1.0f / (far - near);
 
 	_elements[12] = -(right + left) / (right - left);
 	_elements[13] = -(top + bottom) / (top - bottom);
-	_elements[14] = -(far + near) / (far - near);
+	_elements[14] = -near / (far - near);
 }
 
 void Matrix4x4::SetPerspective(float fovy, float aspect, float near, float far)
 {
-	//TODO:
+	//推导过程： 左手坐标系
+	//              ▴ y
+	//              │         
+	//              │        
+	//              │           ↗
+	//              │         ↗
+	//              |       ↗
+	//              |     ↗ 
+	//              |   ↗ |
+	//              | ↗a/2| h/2
+	//              ――――n――|――――――――――――▸z
+	//               ↘ a/2|
+	//                 ↘  | h/2
+	//                   ↘|
+	//                      ↘
+	//                        ↘
+	//角度转弧度
+	fovy *= (float)M_PI / 180;
+	float top = near * tanf(fovy / 2.0f);
+	float bottom = -top;
+	float left = aspect * bottom;
+	float right = aspect * top;
+
+	SetPerspective(left, right, bottom, top, near, far);
 }
 
-void Matrix4x4::SetPerspective(float left, float righ, float bottom, float top, float near, float far)
+void Matrix4x4::SetPerspective(float left, float right, float bottom, float top, float near, float far)
 {
-	//TODO:
+	//推导过程： 左手坐标系
+	//              ▴ y
+	//              │         
+	//              │        
+	//              │           
+	//              │         
+	//              |       
+	//              |     
+	//              |   
+	//              |           (0,0,n)          (0,0,z)
+	//      (0,0,0) ――――――――――――|――――――――――――――― |―――――▸z
+	//               ↘  ↘     |L2              |
+	//                 ↘   ↘  |(x',y',z')      | L1
+	//                   ↘     ↘               |
+	//                      ↘      ↘           |
+	//                        ↘x        ↘      |
+	//                                       ↘  |  (x,y,z)
+	//
+	//
+	//由图可得：L2/L1 = n/z
+	//所以 x' / x = n / z; y' / y = n / z; ===>  x' = x * n / z; y' = y * n / z;（1）
+	//同样，把坐标映射到规范视域体中的推导如正交投影公式一样
+	//x'' = 2*x' / (right - left) - [(right + left) / (right - left)];
+	//y'' = 2*y' / (top - bottom) - [(top + bottom) / (top - bottom)];
+	//把公式中的x'换成（1）中的x'可得：
+	// x'' = 2*n / (right - left) * x / z - [(right + left) / (right - left)]
+	//把公式中的y'换成（1）中的y'可得：
+	//y'' = 2*n / (top - bottom) * y / z - [(top - bottom) / (top + bottom)]
+	//同时乘以z可得：
+	// x''* z = 2*n / (right - left) * x - [(right + left) / (right - left)] * z;
+	// y'' * z = 2*n / (top - bottom) * y - [ (top + bottom) / (top - bottom)] * z;
+	// 为了把这些等式写进矩阵中，需要写成这种形式：
+	//x'' = c1*x + c2*y + c3*z + c4; y'' = c5*x + c6*y + c7*z + c8;
+	//如果能找到办法获得z'*z的公式， 就可以写一个变换矩阵把(x,y,z)映射到(x''*z, y''*z, z''*z)
+	//然后只要把各个部分除以点z，就会得到想要的(x'',y'',z'').
+
+	//我们假设z''*z = p*z + q;（2） (z=n时z''=0, z=f时z''=1),D3D标准z的范围[0,1];代入可得：
+	//0 = p*n + q; ==>q = -p*n
+	//f = p*f + q; ==> f = p*f - p*n ==> f = p*(f-n); ==> p = f/(f-n); ==> q = -nf/(f-n);
+	//代入公式（2）中可得：z''*z = f/f-n * z - f*n/f-n;
+	//整理可得：
+	// x'' * z = 2*n / (right-left)*x - (right+left / right-left);
+	//y'' * z = 2*n / (top-bottom)*y - (top+bottom / top-bottom);
+	//z'' * z = f/f-n * z - (f*n / f-n);
+	//w'' * z = 1 * z;
+	//得到矩阵:(right = R, left = L, top = T, bottom = B, far = F, near = N)
+	// |2*N/R-L     0       -(R+L)/(R-L)       0|
+	// |0          2*N/T-B  -(T+B)/(T-B)       0|
+	// |0           0       F/F-N       -F*N/F-N|
+	// |0           0         1                0|
+
+	//转置下：
+	// |2*N/R-L       0              0          0|
+	// |0             2*N/T-B        0          0|
+	// |-(R+L)/(R-L)  -(T+B)/(T-B)   F/F-N      1|
+	// |0             0              -F*N/F-N   0|
+
+
+	LoadZero();
+	_elements[0] = 2 * near / right - left;
+	_elements[5] = 2 * near / top - bottom;
+	_elements[8] = -(right + left) / right - left;
+	_elements[9] = -(top + bottom) / top - bottom;
+	_elements[10] = far / far - near;
+	_elements[11] = 1;
+	_elements[14] = -far * near / far - near;
 }
 
 void Matrix4x4::SetTranslationPart(const _Vector3D& v3)
