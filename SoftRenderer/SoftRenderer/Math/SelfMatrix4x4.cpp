@@ -234,9 +234,178 @@ void Matrix4x4::InverseTranspose()
 
 Matrix4x4 Matrix4x4::GetInverseTranspose()const
 {
+	//??
 	Matrix4x4 result;
-	//TODO:
+	
+	float tmp[12];
+	float det;
 
+	tmp[0] = _elements[10] * _elements[15];
+	tmp[1] = _elements[11] * _elements[14];
+	tmp[2] = _elements[9] * _elements[15];
+	tmp[3] = _elements[11] * _elements[13];
+	tmp[4] = _elements[9] * _elements[14];
+	tmp[5] = _elements[10] * _elements[13];
+	tmp[6] = _elements[8] * _elements[15];
+	tmp[7] = _elements[11] * _elements[12];
+	tmp[8] = _elements[8] * _elements[14];
+	tmp[9] = _elements[10] * _elements[12];
+	tmp[10] = _elements[8] * _elements[13];
+	tmp[11] = _elements[9] * _elements[12];
+
+	result.SetElement(0, 
+		tmp[0] * _elements[5] + 
+		tmp[3] * _elements[6] + 
+		tmp[4] * _elements[7] - 
+		tmp[1] * _elements[5] - 
+		tmp[2] * _elements[6] - 
+		tmp[5] * _elements[7]);
+
+	result.SetElement(1, 
+		tmp[1] * _elements[4] + 
+		tmp[6] * _elements[6] + 
+		tmp[9] * _elements[7] - 
+		tmp[0] * _elements[4] - 
+		tmp[7] * _elements[6] - 
+		tmp[8] * _elements[7]);
+
+	result.SetElement(2, 
+		tmp[2] * _elements[4] + 
+		tmp[7] * _elements[5] + 
+		tmp[10] * _elements[7] - 
+		tmp[3] * _elements[4] - 
+		tmp[6] * _elements[5] - 
+		tmp[11] * _elements[7]);
+
+	result.SetElement(3,
+		tmp[5] * _elements[4] +
+		tmp[8] * _elements[5] +
+		tmp[11] * _elements[6] -
+		tmp[4] * _elements[4] -
+		tmp[9] * _elements[5] -
+		tmp[10] * _elements[6]);
+
+	result.SetElement(4,
+		tmp[1] * _elements[1] +
+		tmp[2] * _elements[2] +
+		tmp[5] * _elements[3] -
+		tmp[0] * _elements[1] -
+		tmp[3] * _elements[2] -
+		tmp[4] * _elements[3]);
+
+	result.SetElement(5,
+		tmp[0] * _elements[0] +
+		tmp[7] * _elements[2] +
+		tmp[8] * _elements[3] -
+		tmp[1] * _elements[0] -
+		tmp[6] * _elements[2] -
+		tmp[9] * _elements[3]);
+
+	result.SetElement(6,
+		tmp[3] * _elements[0] +
+		tmp[6] * _elements[1] +
+		tmp[11] * _elements[3] -
+		tmp[2] * _elements[0] -
+		tmp[7] * _elements[1] -
+		tmp[10] * _elements[3]);
+
+	result.SetElement(7,
+		tmp[4] * _elements[0] +
+		tmp[9] * _elements[1] +
+		tmp[10] * _elements[2] -
+		tmp[5] * _elements[0] -
+		tmp[8] * _elements[1] -
+		tmp[11] * _elements[2]);
+
+	tmp[0] = _elements[2] * _elements[7];
+	tmp[1] = _elements[3] * _elements[6];
+	tmp[2] = _elements[1] * _elements[7];
+	tmp[3] = _elements[3] * _elements[5];
+	tmp[4] = _elements[1] * _elements[6];
+	tmp[5] = _elements[2] * _elements[5];
+	tmp[6] = _elements[0] * _elements[7];
+	tmp[7] = _elements[3] * _elements[4];
+	tmp[8] = _elements[0] * _elements[6];
+	tmp[9] = _elements[2] * _elements[4];
+	tmp[10] = _elements[0] * _elements[5];
+	tmp[11] = _elements[1] * _elements[4];
+
+	result.SetElement(8,
+		tmp[0] * _elements[13] +
+		tmp[3] * _elements[14] +
+		tmp[4] * _elements[15] -
+		tmp[1] * _elements[13] -
+		tmp[2] * _elements[14] -
+		tmp[5] * _elements[15]);
+
+	result.SetElement(9,
+		tmp[1] * _elements[12] +
+		tmp[6] * _elements[14] +
+		tmp[9] * _elements[15] -
+		tmp[0] * _elements[12] -
+		tmp[7] * _elements[14] -
+		tmp[8] * _elements[15]);
+
+	result.SetElement(10,
+		tmp[2] * _elements[12] +
+		tmp[7] * _elements[13] +
+		tmp[10] * _elements[15] -
+		tmp[3] * _elements[12] -
+		tmp[6] * _elements[13] -
+		tmp[11] * _elements[15]);
+
+	result.SetElement(11,
+		tmp[5] * _elements[12] +
+		tmp[8] * _elements[13] +
+		tmp[11] * _elements[14] -
+		tmp[4] * _elements[12] -
+		tmp[9] * _elements[13] -
+		tmp[10] * _elements[14]);
+
+	result.SetElement(12,
+		tmp[2] * _elements[10] +
+		tmp[5] * _elements[11] +
+		tmp[1] * _elements[9] -
+		tmp[4] * _elements[11] -
+		tmp[0] * _elements[9] -
+		tmp[3] * _elements[10]);
+
+	result.SetElement(13,
+		tmp[8] * _elements[11] +
+		tmp[0] * _elements[8] +
+		tmp[7] * _elements[10] -
+		tmp[6] * _elements[10] -
+		tmp[9] * _elements[11] -
+		tmp[1] * _elements[8]);
+
+	result.SetElement(14,
+		tmp[6] * _elements[9] +
+		tmp[11] * _elements[11] +
+		tmp[3] * _elements[8] -
+		tmp[10] * _elements[11] -
+		tmp[2] * _elements[8] -
+		tmp[7] * _elements[9]);
+
+	result.SetElement(15,
+		tmp[10] * _elements[10] +
+		tmp[4] * _elements[8] +
+		tmp[9] * _elements[9] -
+		tmp[8] * _elements[9] -
+		tmp[11] * _elements[10] -
+		tmp[5] * _elements[8]);
+
+	det = _elements[0] * result.GetElement(0) +
+		_elements[1] * result.GetElement(1) +
+		_elements[2] * result.GetElement(2) +
+		_elements[3] *result.GetElement(3);
+
+	if (FLT_IS_ZERO(det))
+	{
+		Matrix4x4 id;
+		return id;
+	}
+
+	result = result / det;
 	return result;
 }
 
@@ -247,11 +416,14 @@ void Matrix4x4::AffineInverse()
 
 Matrix4x4 Matrix4x4::GetAffineInverse() const
 {
-	Matrix4x4 result;
-	//TODO:
-
-
-	return result;
+	//??
+	return Matrix4x4(_elements[0], _elements[4], _elements[8], 0.0f,
+		_elements[1], _elements[5], _elements[9], 0.0f,
+		_elements[2], _elements[6], _elements[10], 0.0f,
+		-(_elements[0] * _elements[12] + _elements[1] * _elements[13] + _elements[2] * _elements[14]),
+		-(_elements[4] * _elements[12] + _elements[5] * _elements[13] + _elements[6] * _elements[14]),
+		-(_elements[8] * _elements[12] + _elements[9] * _elements[13] + _elements[10] * _elements[14]),
+		1.0f);
 }
 
 void Matrix4x4::AffineInverseTranspose()
@@ -261,10 +433,11 @@ void Matrix4x4::AffineInverseTranspose()
 
 Matrix4x4 Matrix4x4::GetAffineInverseTranspose()
 {
-	Matrix4x4 result;
-	//TODO:
-
-	return result;
+	//??
+	return Matrix4x4(_elements[0], _elements[1], _elements[2], -(_elements[0] * _elements[12] + _elements[1] * _elements[13] + _elements[2] * _elements[14]),
+		_elements[4], _elements[5], _elements[6], -(_elements[4] * _elements[12] + _elements[5] * _elements[13] + _elements[6] * _elements[14]),
+		_elements[8], _elements[9], _elements[10], -(_elements[8] * _elements[12] + _elements[9] * _elements[13] + _elements[10] * _elements[14]),
+		0.0f, 0.0f, 0.0f, 1.0f);
 }
 
 void Matrix4x4::SetTranslation(const _Vector3D& translation)
@@ -289,8 +462,26 @@ void Matrix4x4::SetUniformScale(const float factor)
 
 void Matrix4x4::SetRotationAxis(const double angle, const _Vector3D& axis)
 {
+	//??
+	_Vector3D tmpVec = axis.GetNormalized();
+
+	float sinAngle = (float)sin(M_PI * angle / 180);
+	float cosAngle = (float)cos(M_PI * angle / 180);
+	float oneMinusCosAngle = (float)(1.0 - cosAngle);
+
 	LoadIdentity();
-	//TODO:
+
+	_elements[0] = tmpVec.GetX() * tmpVec.GetX() + cosAngle * (1 - tmpVec.GetX() * tmpVec.GetX());
+	_elements[4] = tmpVec.GetX() * tmpVec.GetY() * oneMinusCosAngle - sinAngle * tmpVec.GetZ();
+	_elements[8] = tmpVec.GetX() * tmpVec.GetZ() * oneMinusCosAngle + sinAngle * tmpVec.GetY();
+
+	_elements[1] = tmpVec.GetX() * tmpVec.GetY() * oneMinusCosAngle + sinAngle * tmpVec.GetZ();
+	_elements[5] = tmpVec.GetY() * tmpVec.GetY() + cosAngle * (1 - tmpVec.GetY() * tmpVec.GetY());
+	_elements[9] = tmpVec.GetY() * tmpVec.GetZ() * oneMinusCosAngle - sinAngle * tmpVec.GetX();
+
+	_elements[2] = tmpVec.GetX() * tmpVec.GetZ() * oneMinusCosAngle - sinAngle * tmpVec.GetY();
+	_elements[6] = tmpVec.GetY() * tmpVec.GetZ() * oneMinusCosAngle + sinAngle * tmpVec.GetX();
+	_elements[10] = tmpVec.GetZ() * tmpVec.GetZ() + cosAngle * (1 - tmpVec.GetZ() * tmpVec.GetZ());
 }
 
 void Matrix4x4::SetRotationX(const double angle)
@@ -575,7 +766,27 @@ void Matrix4x4::SetTranslationPart(const _Vector3D& v3)
 
 void Matrix4x4::SetRotationPartEuler(const double angleX, const double angleY, const double angleZ)
 {
-	//TODO:
+	//??
+	double cr = cos(M_PI * angleX / 180);
+	double sr = sin(M_PI * angleX / 180);
+	double cp = cos(M_PI * angleY / 180);
+	double sp = sin(M_PI * angleY / 180);
+	double cy = cos(M_PI * angleZ / 180);
+	double sy = sin(M_PI * angleZ / 180);
+
+	_elements[0] = (float)(cp * cy);
+	_elements[1] = (float)(cp * sy);
+	_elements[2] = (float)(-sp);
+
+	double srsp = sr * sp;
+	double crsp = cr * sp;
+
+	_elements[4] = (float)(srsp * cy - cr * sy);
+	_elements[5] = (float)(srsp * sy + cr * cy);
+	_elements[6] = (float)(sr * cp);
+	_elements[8] = (float)(crsp * cy + sr * sy);
+	_elements[9] = (float)(crsp * sy - sr * cy);
+	_elements[10] = (float)(cr * cp);
 }
 
 void Matrix4x4::SetRotationPartEuler(const _Vector3D& v3)
