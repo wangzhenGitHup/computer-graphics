@@ -33,6 +33,9 @@
     <ClCompile Include="Math\SelfVector4D.cpp">
       <Filter>Math</Filter>
     </ClCompile>
+    <ClCompile Include="Color.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Math\SelfMaths.h">
@@ -48,6 +51,9 @@
       <Filter>Math</Filter>
     </ClInclude>
     <ClInclude Include="Math\SelfVector4D.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Color.h">
       <Filter>Math</Filter>
     </ClInclude>
   </ItemGroup>
