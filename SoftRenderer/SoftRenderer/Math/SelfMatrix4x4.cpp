@@ -69,7 +69,7 @@ float Matrix4x4::GetElement(int pos) const
 	return 0.0f;
 }
 
-_Vector4D Matrix4x4::GetRow(int pos) const
+_Vector4D Matrix4x4::GetColumn(int pos) const
 {
 	switch (pos)
 	{
@@ -90,7 +90,7 @@ _Vector4D Matrix4x4::GetRow(int pos) const
 	}
 }
 
-_Vector4D Matrix4x4::GetColumn(int pos) const
+_Vector4D Matrix4x4::GetRow(int pos) const
 {
 	switch (pos)
 	{
@@ -162,7 +162,6 @@ _Vector3D Matrix4x4::GetRotatedVector3D(const _Vector3D& v3) const
 
 _Vector3D Matrix4x4::GetInverseRotatedVector3D(const _Vector3D& v3) const
 {
-	//旋转变化的逆矩阵直接转置就行了
 	return _Vector3D(
 		_elements[0] * v3.GetX() + _elements[1] * v3.GetY() + _elements[2] * v3.GetZ(),
 		_elements[4] * v3.GetX() + _elements[5] * v3.GetY() + _elements[6] * v3.GetZ(),
@@ -234,12 +233,15 @@ void Matrix4x4::InverseTranspose()
 
 Matrix4x4 Matrix4x4::GetInverseTranspose()const
 {
-	//??
+	//利用公式 矩阵A的逆 = 矩阵A的伴随矩阵 / 矩阵A行列式的值
+	//伴随矩阵
+	Matrix4x4 followMat;
 	Matrix4x4 result;
-	
 	float tmp[12];
-	float det;
+	//行列式的值
+	float determinant;
 
+	//以下这些就是根据线代伴随矩阵的计算公式进行求导
 	tmp[0] = _elements[10] * _elements[15];
 	tmp[1] = _elements[11] * _elements[14];
 	tmp[2] = _elements[9] * _elements[15];
@@ -253,7 +255,8 @@ Matrix4x4 Matrix4x4::GetInverseTranspose()const
 	tmp[10] = _elements[8] * _elements[13];
 	tmp[11] = _elements[9] * _elements[12];
 
-	result.SetElement(0, 
+	//第1行第1列的代数余子式值
+	followMat.SetElement(0,
 		tmp[0] * _elements[5] + 
 		tmp[3] * _elements[6] + 
 		tmp[4] * _elements[7] - 
@@ -261,7 +264,8 @@ Matrix4x4 Matrix4x4::GetInverseTranspose()const
 		tmp[2] * _elements[6] - 
 		tmp[5] * _elements[7]);
 
-	result.SetElement(1, 
+	//第1行第2列的代数余子式值
+	followMat.SetElement(1,
 		tmp[1] * _elements[4] + 
 		tmp[6] * _elements[6] + 
 		tmp[9] * _elements[7] - 
@@ -269,7 +273,8 @@ Matrix4x4 Matrix4x4::GetInverseTranspose()const
 		tmp[7] * _elements[6] - 
 		tmp[8] * _elements[7]);
 
-	result.SetElement(2, 
+	//第1行第3列的代数余子式值
+	followMat.SetElement(2,
 		tmp[2] * _elements[4] + 
 		tmp[7] * _elements[5] + 
 		tmp[10] * _elements[7] - 
@@ -277,7 +282,8 @@ Matrix4x4 Matrix4x4::GetInverseTranspose()const
 		tmp[6] * _elements[5] - 
 		tmp[11] * _elements[7]);
 
-	result.SetElement(3,
+	//第1行第4列的代数余子式值
+	followMat.SetElement(3,
 		tmp[5] * _elements[4] +
 		tmp[8] * _elements[5] +
 		tmp[11] * _elements[6] -
@@ -285,7 +291,8 @@ Matrix4x4 Matrix4x4::GetInverseTranspose()const
 		tmp[9] * _elements[5] -
 		tmp[10] * _elements[6]);
 
-	result.SetElement(4,
+	//第2行第1列的代数余子式值
+	followMat.SetElement(4,
 		tmp[1] * _elements[1] +
 		tmp[2] * _elements[2] +
 		tmp[5] * _elements[3] -
@@ -293,7 +300,8 @@ Matrix4x4 Matrix4x4::GetInverseTranspose()const
 		tmp[3] * _elements[2] -
 		tmp[4] * _elements[3]);
 
-	result.SetElement(5,
+	//第2行第2列的代数余子式值
+	followMat.SetElement(5,
 		tmp[0] * _elements[0] +
 		tmp[7] * _elements[2] +
 		tmp[8] * _elements[3] -
@@ -301,7 +309,8 @@ Matrix4x4 Matrix4x4::GetInverseTranspose()const
 		tmp[6] * _elements[2] -
 		tmp[9] * _elements[3]);
 
-	result.SetElement(6,
+	//第2行第3列的代数余子式值
+	followMat.SetElement(6,
 		tmp[3] * _elements[0] +
 		tmp[6] * _elements[1] +
 		tmp[11] * _elements[3] -
@@ -309,7 +318,8 @@ Matrix4x4 Matrix4x4::GetInverseTranspose()const
 		tmp[7] * _elements[1] -
 		tmp[10] * _elements[3]);
 
-	result.SetElement(7,
+	//第2行第4列的代数余子式值
+	followMat.SetElement(7,
 		tmp[4] * _elements[0] +
 		tmp[9] * _elements[1] +
 		tmp[10] * _elements[2] -
@@ -330,7 +340,8 @@ Matrix4x4 Matrix4x4::GetInverseTranspose()const
 	tmp[10] = _elements[0] * _elements[5];
 	tmp[11] = _elements[1] * _elements[4];
 
-	result.SetElement(8,
+	//第3行第1列的代数余子式值
+	followMat.SetElement(8,
 		tmp[0] * _elements[13] +
 		tmp[3] * _elements[14] +
 		tmp[4] * _elements[15] -
@@ -338,7 +349,8 @@ Matrix4x4 Matrix4x4::GetInverseTranspose()const
 		tmp[2] * _elements[14] -
 		tmp[5] * _elements[15]);
 
-	result.SetElement(9,
+	//第3行第2列的代数余子式值
+	followMat.SetElement(9,
 		tmp[1] * _elements[12] +
 		tmp[6] * _elements[14] +
 		tmp[9] * _elements[15] -
@@ -346,7 +358,8 @@ Matrix4x4 Matrix4x4::GetInverseTranspose()const
 		tmp[7] * _elements[14] -
 		tmp[8] * _elements[15]);
 
-	result.SetElement(10,
+	//第3行第3列的代数余子式值
+	followMat.SetElement(10,
 		tmp[2] * _elements[12] +
 		tmp[7] * _elements[13] +
 		tmp[10] * _elements[15] -
@@ -354,7 +367,8 @@ Matrix4x4 Matrix4x4::GetInverseTranspose()const
 		tmp[6] * _elements[13] -
 		tmp[11] * _elements[15]);
 
-	result.SetElement(11,
+	//第3行第4列的代数余子式值
+	followMat.SetElement(11,
 		tmp[5] * _elements[12] +
 		tmp[8] * _elements[13] +
 		tmp[11] * _elements[14] -
@@ -362,7 +376,8 @@ Matrix4x4 Matrix4x4::GetInverseTranspose()const
 		tmp[9] * _elements[13] -
 		tmp[10] * _elements[14]);
 
-	result.SetElement(12,
+	//第4行第1列的代数余子式值
+	followMat.SetElement(12,
 		tmp[2] * _elements[10] +
 		tmp[5] * _elements[11] +
 		tmp[1] * _elements[9] -
@@ -370,7 +385,8 @@ Matrix4x4 Matrix4x4::GetInverseTranspose()const
 		tmp[0] * _elements[9] -
 		tmp[3] * _elements[10]);
 
-	result.SetElement(13,
+	//第4行第2列的代数余子式值
+	followMat.SetElement(13,
 		tmp[8] * _elements[11] +
 		tmp[0] * _elements[8] +
 		tmp[7] * _elements[10] -
@@ -378,7 +394,8 @@ Matrix4x4 Matrix4x4::GetInverseTranspose()const
 		tmp[9] * _elements[11] -
 		tmp[1] * _elements[8]);
 
-	result.SetElement(14,
+	//第4行第3列的代数余子式值
+	followMat.SetElement(14,
 		tmp[6] * _elements[9] +
 		tmp[11] * _elements[11] +
 		tmp[3] * _elements[8] -
@@ -386,7 +403,8 @@ Matrix4x4 Matrix4x4::GetInverseTranspose()const
 		tmp[2] * _elements[8] -
 		tmp[7] * _elements[9]);
 
-	result.SetElement(15,
+	//第4行第4列的代数余子式值
+	followMat.SetElement(15,
 		tmp[10] * _elements[10] +
 		tmp[4] * _elements[8] +
 		tmp[9] * _elements[9] -
@@ -394,18 +412,22 @@ Matrix4x4 Matrix4x4::GetInverseTranspose()const
 		tmp[11] * _elements[10] -
 		tmp[5] * _elements[8]);
 
-	det = _elements[0] * result.GetElement(0) +
-		_elements[1] * result.GetElement(1) +
-		_elements[2] * result.GetElement(2) +
-		_elements[3] *result.GetElement(3);
+	//求原矩阵的行列式的值
+	//按第一行展开计算
+	determinant = _elements[0] * followMat.GetElement(0) +
+		_elements[1] * followMat.GetElement(1) +
+		_elements[2] * followMat.GetElement(2) +
+		_elements[3] * followMat.GetElement(3);
 
-	if (FLT_IS_ZERO(det))
+	//矩阵的行列式值不能为0
+	if (FLT_IS_ZERO(determinant))
 	{
-		Matrix4x4 id;
-		return id;
+		Matrix4x4 defaultMat;
+		return defaultMat;
 	}
 
-	result = result / det;
+	//最终得到的逆矩阵[按行排列]
+	result = followMat / determinant;
 	return result;
 }
 
@@ -416,7 +438,7 @@ void Matrix4x4::AffineInverse()
 
 Matrix4x4 Matrix4x4::GetAffineInverse() const
 {
-	//??
+	//平移的逆，反向减去
 	return Matrix4x4(_elements[0], _elements[4], _elements[8], 0.0f,
 		_elements[1], _elements[5], _elements[9], 0.0f,
 		_elements[2], _elements[6], _elements[10], 0.0f,
@@ -433,7 +455,6 @@ void Matrix4x4::AffineInverseTranspose()
 
 Matrix4x4 Matrix4x4::GetAffineInverseTranspose()
 {
-	//??
 	return Matrix4x4(_elements[0], _elements[1], _elements[2], -(_elements[0] * _elements[12] + _elements[1] * _elements[13] + _elements[2] * _elements[14]),
 		_elements[4], _elements[5], _elements[6], -(_elements[4] * _elements[12] + _elements[5] * _elements[13] + _elements[6] * _elements[14]),
 		_elements[8], _elements[9], _elements[10], -(_elements[8] * _elements[12] + _elements[9] * _elements[13] + _elements[10] * _elements[14]),
@@ -462,12 +483,41 @@ void Matrix4x4::SetUniformScale(const float factor)
 
 void Matrix4x4::SetRotationAxis(const double angle, const _Vector3D& axis)
 {
-	//??
+	//这个推导过程 主要是参考《3D数学基础：图形与游戏开发》一书中第8章内容
+	//假定 向量V 绕 R轴[Rx, Ry, Rz] 旋转 a角 得到 V'
+	//转换成用 矩阵RMatrix*V 来得到 V'
+	//为求得 矩阵RMatrix， 我们假定在垂直于 R轴所在平面中解决，转化成方便处理的2D问题
+	//为了做到这点， 将 向量V 分解为两个分量：Vv(垂直R轴的向量) 和 Vh(平行于R轴的向量)
+	//其中 V = Vv + Vh
+	//Vh平行 R轴，所以 V 绕R轴旋转 可转化成求解 Vv绕 R轴旋转 得到Vv'
+	//这样 V' = Vv' + Vh     （2）
+	//因为 Vh平行 R轴，求Vh等同于求V在R轴上的投影，可得 Vh = (V.R)*R;
+	//由 V = Vv + Vh 可得：Vv = V - （V.R)*R;
+	//构建一个(Vv,W,R)的正交坐标系，【x代表向量的叉乘】W = R x Vv; Vv = V - Vh；可得：W =  R x [V -Vh]
+	//W = R x V - R x Vh = R x V;  (3)
+	//因为 Vv'是 Vv 绕 R轴旋转a角得到的,所以 Vv' = Vv*cosa + W*sina;
+	//综合（2）(3)可得：Vv' = Vv*cosa + (R x V)*sina
+	//又因为 Vv = V - Vh = V - (V.R)*R;
+	//所以 Vv' = [V - (V.R)*R]*cosa + (R x V)*sina;
+	//可得 V' = Vv' + Vh = [V - (V.R)*R]*cosa + (R x V)*sina + (V.R)*R
+	
+	//确定第一个基向量[1, 0, 0]代入可得：
+	//[Rx * Rx(1 - cosa) + cosa,  Rx * Ry(1 - cosa) + Rz * sina,  Rx * Rz(1 -cosa) - Ry * sina]
+	
+	//确定第二个基向量[0, 1, 0]代入可得：
+	//[Rx * Ry(1 - cosa) - Rz * sina,  Ry * Ry(1 - cosa) + cosa, Ry * Rz(1 - cosa) + Rx * sina]
+
+	//确定第三个基向量[0, 0, 1]代入可得：
+	//[Rx * Rz(1 - cosa) + Ry * sina,  Ry * Rz(1 - cosa) - Rz * sina, Rz * Rz(1 - cosa) + cosa]
+
+
+	//只是旋转，只要确定方向就行了，归一化向量，也可简化计算
 	_Vector3D tmpVec = axis.GetNormalized();
 
+	//转成弧度
 	float sinAngle = (float)sin(M_PI * angle / 180);
 	float cosAngle = (float)cos(M_PI * angle / 180);
-	float oneMinusCosAngle = (float)(1.0 - cosAngle);
+	float oneMinusCosAngle = (float)(1.0f - cosAngle);
 
 	LoadIdentity();
 
@@ -580,12 +630,6 @@ void Matrix4x4::SetRotationZ(const double angle)
 	_elements[5] = _elements[0];
 }
 
-void Matrix4x4::SetRotationEuler(const double angleX, const double angleY, const double angleZ)
-{
-	LoadIdentity();
-	SetRotationPartEuler(angleX, angleY, angleZ);
-}
-
 void Matrix4x4::SetOrtho(float left, float right, float bottom, float top, float near, float far)
 {
 	//推导过程： 左手坐标系
@@ -647,7 +691,7 @@ void Matrix4x4::SetOrtho(float left, float right, float bottom, float top, float
 	// | 2(R-L)         0            0               0 |
 	// |   0           2/(T-B)       0               0 |
 	// |   0            0            1/(F-N)         0 |
-	// | -(R+L)/(R-L)  -(T+B)/(T-B)  -N/(F-N)    1 |
+	// | -(R+L)/(R-L)  -(T+B)/(T-B)  -N/(F-N)        1 |
 	LoadIdentity();
 	_elements[0] = 2.0f / (right - left);
 	
@@ -764,35 +808,46 @@ void Matrix4x4::SetTranslationPart(const _Vector3D& v3)
 	_elements[14] = v3.GetZ();
 }
 
-void Matrix4x4::SetRotationPartEuler(const double angleX, const double angleY, const double angleZ)
+void Matrix4x4::SetRotationEuler(const double angleX, const double angleY, const double angleZ)
 {
-	//??
-	double cr = cos(M_PI * angleX / 180);
-	double sr = sin(M_PI * angleX / 180);
-	double cp = cos(M_PI * angleY / 180);
-	double sp = sin(M_PI * angleY / 180);
-	double cy = cos(M_PI * angleZ / 180);
-	double sy = sin(M_PI * angleZ / 180);
-
-	_elements[0] = (float)(cp * cy);
-	_elements[1] = (float)(cp * sy);
-	_elements[2] = (float)(-sp);
-
-	double srsp = sr * sp;
-	double crsp = cr * sp;
-
-	_elements[4] = (float)(srsp * cy - cr * sy);
-	_elements[5] = (float)(srsp * sy + cr * cy);
-	_elements[6] = (float)(sr * cp);
-	_elements[8] = (float)(crsp * cy + sr * sy);
-	_elements[9] = (float)(crsp * sy - sr * cy);
-	_elements[10] = (float)(cr * cp);
+	LoadIdentity();
+	SetRotationPartEuler(angleX, angleY, angleZ);
 }
 
 void Matrix4x4::SetRotationPartEuler(const _Vector3D& v3)
 {
 	SetRotationPartEuler((double)v3.GetX(), (double)v3.GetY(), (double)v3.GetZ());
 }
+
+void Matrix4x4::SetRotationPartEuler(const double angleX, const double angleY, const double angleZ)
+{
+	//绕欧拉角旋转 就是把 绕x轴旋转a角度， 绕y轴旋转b角度，绕z轴旋转c角度 所推导的3个矩阵
+	//按照旋转顺序 X-Y-Z, X-Z-Y, Y-Z-X 矩阵相乘 即可
+	//我们按照Z-Y-X顺序来
+	double cosX = cos(M_PI * angleX / 180);
+	double sinX = sin(M_PI * angleX / 180);
+
+	double cosY = cos(M_PI * angleY / 180);
+	double sinY = sin(M_PI * angleY / 180);
+
+	double cosZ = cos(M_PI * angleZ / 180);
+	double sinZ = sin(M_PI * angleZ / 180);
+
+	_elements[0] = (float)(cosY * cosZ);
+	_elements[1] = (float)(cosY * sinZ);
+	_elements[2] = (float)(-sinY);
+
+	double sinXY = sinX * sinY;
+	double cosX_sinY = cosX * sinY;
+
+	_elements[4] = (float)(sinXY * cosZ - cosX * sinZ);
+	_elements[5] = (float)(sinXY * sinZ + cosX * cosZ);
+	_elements[6] = (float)(sinX * cosY);
+	_elements[8] = (float)(cosX_sinY * cosZ + sinX * sinZ);
+	_elements[9] = (float)(cosX_sinY * sinZ - sinX * cosZ);
+	_elements[10] = (float)(cosX * cosY);
+}
+
 
 bool Matrix4x4::operator!=(const Matrix4x4& matrix) const
 {
@@ -1046,7 +1101,7 @@ bool Matrix4x4::operator==(const Matrix4x4& matrix) const
 {
 	for (int i = 0; i < 16; i++)
 	{
-		if (_elements[i] != matrix._elements[i])
+		if (!FLT_EQUAL(_elements[i], matrix._elements[i]))
 		{
 			return false;
 		}

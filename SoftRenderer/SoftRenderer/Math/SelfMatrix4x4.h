@@ -5,6 +5,7 @@
 class _Vector3D;
 class _Vector4D;
 
+//默认为列矩阵
 class Matrix4x4
 {
 public:
@@ -55,13 +56,17 @@ public:
 
 	void RotateVector3D(_Vector3D& v3)const;
 	void InverseRotateVector3D(_Vector3D& v3)const;
+	//得到三维向量，用于旋转
 	_Vector3D GetRotatedVector3D(const _Vector3D& v3)const;
+	//得到三维向量，用于旋转[旋转的逆转置就ok]
 	_Vector3D GetInverseRotatedVector3D(const _Vector3D& v3)const;
 
 	void TranslateVector3D(_Vector3D& v3)const;
 	void InverseTranslateVector3D(_Vector3D& v3)const;
 
+	//平移向量
 	_Vector3D GetTranslatedVector3D(const _Vector3D& v3)const;
+	//上面的逆
 	_Vector3D GetInverseTranslatedVector3D(const _Vector3D& v3)const;
 
 	//逆矩阵
@@ -72,11 +77,11 @@ public:
 	void Transpose();
 	Matrix4x4 GetTranspose()const;
 
-	//逆转置合体
+	//逆转置合体,最终求得的矩阵是按行排列的
 	void InverseTranspose();
 	Matrix4x4 GetInverseTranspose()const;
 
-	//仿射逆矩阵
+	//仿射变换逆矩阵
 	void AffineInverse();
 	Matrix4x4 GetAffineInverse()const;
 
@@ -90,7 +95,7 @@ public:
 	void SetScale(const _Vector3D& v3);
 	//统一缩放
 	void SetUniformScale(const float factor);
-	//绕给定坐标轴旋转
+	//绕给定的角度和坐标旋转
 	void SetRotationAxis(const double angle, const _Vector3D& axis);
 	//绕X轴旋转
 	void SetRotationX(const double angle);
@@ -105,7 +110,7 @@ public:
 	//投影矩阵
 	void SetPerspective(float fovy, float aspect, float near, float far);
 	void SetPerspective(float left, float righ, float bottom, float top, float near, float far);
-	//设置矩阵部门的平移和旋转
+	//设置矩阵中平移部分的向量
 	void SetTranslationPart(const _Vector3D& v3);
 	void SetRotationPartEuler(const double angleX, const double angleY, const double angleZ);
 	void SetRotationPartEuler(const _Vector3D& v3);
