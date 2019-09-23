@@ -14,9 +14,7 @@ Matrix4x4 lookAt(float eyeX, float eyeY, float eyeZ,
 Matrix4x4 perspective(float fovy, float aspect, float zNear, float zFar);
 //正交矩阵
 Matrix4x4 ortho(float left, float right, float bottom, float top, float near, float far);
-int project(float objX, float objY, float objZ,
-	const float* pModel, const float* pProj, const int* pView,
-	float* pWinX, float* pWinY, float* pWinZ);
+
 Matrix4x4 rotateX(float angle);
 Matrix4x4 rotateY(float angle);
 Matrix4x4 rotateZ(float angle);
@@ -24,11 +22,13 @@ Matrix4x4 scale(float size);
 Matrix4x4 translate(float tx, float ty, float tz);
 _Vector4D mul(_Vector4D a, _Vector4D b);
 
+//插值计算
 void interpolate3f(float pa, float pb, float pc,
 	float a, float b, float c, float& result);
 void interpolate2f(float pa, float pb, float a, float b, float& result);
+
 float calZPara(float v1z, float v2z, float z);
-//参数化向量公式
+//参数化向量计算公式
 _Vector3D calcParaVec(_Vector3D vec1, _Vector3D vec2, float param);
 
 float Roundf(float number);

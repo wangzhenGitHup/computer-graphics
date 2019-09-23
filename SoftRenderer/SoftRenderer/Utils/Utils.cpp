@@ -63,15 +63,6 @@ Matrix4x4 ortho(float left, float right, float bottom, float top, float near, fl
 	return mat;
 }
 
-int project(float objX, float objY, float objZ, 
-	const float* pModel, const float* pProj, const int* pView, 
-	float* pWinX, float* pWinY, float* pWinZ)
-{
-	
-
-	return 1;
-}
-
 Matrix4x4 rotateX(float angle)
 {
 	Matrix4x4 mat;
@@ -120,12 +111,16 @@ _Vector4D mul(_Vector4D a, _Vector4D b)
 	return result;
 }
 
-void interpolate3f(float pa, float pb, float pc, float a, float b, float c, float& result)
+void interpolate3f(float pa, float pb, float pc, 
+	float a, float b, float c, 
+	float& result)
 {
 	result = pa * a + pb * b + pc * c;
 }
 
-void interpolate2f(float pa, float pb, float a, float b, float& result)
+void interpolate2f(float pa, float pb, 
+	float a, float b, 
+	float& result)
 {
 	result = pa * a + pb * b;
 }
