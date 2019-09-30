@@ -94,6 +94,11 @@ _Vector2D _Vector2D::operator*(const float v) const
 	return _Vector2D(_x * v, _y * v);
 }
 
+_Vector2D _Vector2D::operator*(const _Vector2D& v2)
+{
+	return _Vector2D(_x * v2.GetX(), _y * v2.GetY());
+}
+
 bool _Vector2D::operator!=(const _Vector2D& v2) const
 {
 	return !((*this) == v2);

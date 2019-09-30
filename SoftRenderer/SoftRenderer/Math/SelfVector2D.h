@@ -36,6 +36,7 @@ public:
 	void operator*=(const float v);
 	void operator/=(const float v);
 	friend _Vector2D operator*(float factor, const _Vector2D& v2);
+	_Vector2D operator*(const _Vector2D& v2);
 
 	//±È½Ï
 	bool operator==(const _Vector2D& v2)const;
