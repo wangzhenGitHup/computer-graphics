@@ -24,7 +24,6 @@ public:
 
 	//线性插值计算
 	_Vector2D Lerp(const _Vector2D& v2, float factor)const;
-	_Vector2D QuadraticInterpolate(const _Vector2D& a, const _Vector2D& b, float factor);
 
 	//四则运算
 	_Vector2D operator*(const float v)const;
@@ -51,7 +50,7 @@ public:
 	operator const float*() const{ return (const float*)this;  }
 
 	//点乘
-	float Dot(const _Vector2D& a, const _Vector2D& b)const;
+	float Dot(const _Vector2D& v2)const;
 
 private:
 	float _x;

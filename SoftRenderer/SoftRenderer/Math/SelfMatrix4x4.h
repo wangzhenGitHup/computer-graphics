@@ -5,7 +5,6 @@
 class _Vector3D;
 class _Vector4D;
 
-//д╛хон╙ап╬ьуС
 class Matrix4x4
 {
 public:

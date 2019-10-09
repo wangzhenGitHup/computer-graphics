@@ -36,7 +36,7 @@ void _Vector3D::LoadOne()
 void _Vector3D::Normalized()
 {
 	float len = GetLength();
-	if (1.0f == len || FLT_IS_ZERO(len))
+	if (FLT_EQUAL(1.0f, len) || FLT_IS_ZERO(len))
 	{
 		return;
 	}
@@ -69,11 +69,6 @@ _Vector3D _Vector3D::Lerp(const _Vector3D& v3, float factor) const
 	return (*this) * (1.0 - factor) + v3 * factor;
 }
 
-_Vector3D _Vector3D::QuadraticInterpolate(const _Vector3D& a, const _Vector3D& b, float factor)
-{
-	return (*this) * (1.0f - factor) * (1.0f - factor) + 2.0f * a * factor * (1.0 - factor) + b * factor * factor;
-}
-
 _Vector3D _Vector3D::operator+(const _Vector3D& v3) const
 {
 	return _Vector3D(_x + v3._x, _y + v3._y, _z + v3._z);
@@ -84,17 +79,17 @@ _Vector3D _Vector3D::operator+() const
 	return *this;
 }
 
-float _Vector3D::Dot(const _Vector3D& a, const _Vector3D& b)const
+float _Vector3D::Dot(const _Vector3D& v3)const
 {
-	return (float)(a._x * b._x + a._y * b._y + a._z * b._z);
+	return (float)(_x * v3._x + _y * v3._y + _z * v3._z);
 }
 
-_Vector3D _Vector3D::Cross(const _Vector3D& a, const _Vector3D& b)const
+_Vector3D _Vector3D::Cross(const _Vector3D& vec)const
 {
 	float v1, v2, v3;
-	v1 = a._y * b._z - a._z * b._y;
-	v2 = a._z * b._x - a._x * b._z;
-	v3 = a._x * b._y - a._y * b._x;
+	v1 = _y * vec._z - _z * vec._y;
+	v2 = _z * vec._x - _x * vec._z;
+	v3 = _x * vec._y - _y * vec._x;
 
 	return _Vector3D(v1, v2, v3);
 }
@@ -110,7 +105,7 @@ _Vector3D _Vector3D::GetRotatedX(double angle) const
 	{
 		return *this;
 	}
-
+	//推导过程见 矩阵
 	float sinAngle = (float)sin(M_PI * angle / 180);
 	float cosAngle = (float)cos(M_PI * angle / 180);
 
@@ -129,6 +124,7 @@ _Vector3D _Vector3D::GetRotatedY(double angle) const
 		return *this;
 	}
 
+	//推导过程见 矩阵
 	float sinAngle = (float)sin(M_PI * angle / 180);
 	float cosAngle = (float)cos(M_PI * angle / 180);
 
@@ -147,6 +143,7 @@ _Vector3D _Vector3D::GetRotatedZ(double angle) const
 		return *this;
 	}
 
+	//推导过程见 矩阵
 	float sinAngle = (float)sin(M_PI * angle / 180);
 	float cosAngle = (float)cos(M_PI * angle / 180);
 
@@ -164,7 +161,7 @@ _Vector3D _Vector3D::GetRotatedAxis(double angle, const _Vector3D& axis) const
 	{
 		return *this;
 	}
-
+	//推导过程见矩阵绕任意轴旋转
 	_Vector3D u = axis.GetNormalized();
 	_Vector3D rotMatrixRow0, rotMatrixRow1, rotMatrixRow2;
 
@@ -184,9 +181,9 @@ _Vector3D _Vector3D::GetRotatedAxis(double angle, const _Vector3D& axis) const
 	rotMatrixRow2._y = u._y * u._z * oneMinusCosAngle + sinAngle * u._x;
 	rotMatrixRow2._z = u._z * u._z + cosAngle * (1 - u._z * u._z);
 
-	return _Vector3D(Dot(rotMatrixRow0, rotMatrixRow0),
-		Dot(rotMatrixRow1, rotMatrixRow1),
-		Dot(rotMatrixRow2, rotMatrixRow2));
+	return _Vector3D(rotMatrixRow0.Dot(rotMatrixRow0),
+		rotMatrixRow1.Dot(rotMatrixRow1),
+		rotMatrixRow2.Dot(rotMatrixRow2));
 }
 
 void _Vector3D::PackTo01()
@@ -202,18 +199,19 @@ _Vector3D _Vector3D::GetPackedTo01() const
 	return tmp;
 }
 
-void _Vector3D::Add(const _Vector3D& src, _Vector3D& dst)
+bool _Vector3D::operator!=(const _Vector3D& v3) const
 {
-	dst._x += src._x;
-	dst._y += src._y;
-	dst._z += src._z;
+	return !((*this) == v3);
 }
 
-void _Vector3D::Subtract(const _Vector3D& src, _Vector3D& dst)
+bool _Vector3D::operator==(const _Vector3D& v3) const
 {
-	dst._x -= src._x;
-	dst._y -= src._y;
-	dst._z -= src._z;
+	if (FLT_EQUAL(_x, v3.GetX()) && FLT_EQUAL(_y, v3.GetY()) && FLT_EQUAL(_z, v3.GetZ()))
+	{
+		return true;
+	}
+
+	return false;
 }
 
 _Vector3D _Vector3D::operator-(const _Vector3D& v3) const
@@ -276,5 +274,5 @@ void _Vector3D::operator+=(const _Vector3D& v3)
 
 _Vector3D operator*(float v, const _Vector3D& v3)
 {
-	return _Vector3D(v * v3._x, v * v3._y, v * v3._z);
+	return v3 * v;
 }

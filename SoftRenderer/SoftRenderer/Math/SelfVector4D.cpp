@@ -44,15 +44,10 @@ _Vector4D _Vector4D::Lerp(const _Vector4D& v4, float factor) const
 	return (*this) * (1.0f - factor) + v4 * factor;
 }
 
-_Vector4D _Vector4D::QuadraticInterpolate(const _Vector4D& a, const _Vector4D& b, float factor) const
-{
-	return (*this) * (1.0f - factor) * (1.0f - factor) + 2 * a * factor * (1.0f - factor) + b * factor * factor;
-}
-
 void _Vector4D::Normalized()
 {
 	float len = GetLength();
-	if (1.0f == len || FLT_IS_ZERO(len))
+	if (FLT_EQUAL(1.0f, len) || FLT_IS_ZERO(len))
 	{
 		return;
 	}
@@ -140,7 +135,7 @@ _Vector4D _Vector4D::operator+() const
 
 bool _Vector4D::operator==(const _Vector4D& v4) const
 {
-	return (_x == v4._x && _y == v4._y && _z == v4._z && _w == v4._w);
+	return (FLT_EQUAL(_x, v4._x) && FLT_EQUAL(_y, v4._y) && FLT_EQUAL(_z, v4._z) && FLT_EQUAL(_w, v4._w));
 }
 
 bool _Vector4D::operator!=(const _Vector4D& v4) const
@@ -217,7 +212,7 @@ _Vector4D operator*(float factor, const _Vector4D& v4)
 
 _Vector4D::operator _Vector3D()
 {
-	if (FLT_IS_ZERO(_w) || 1.0f == _w)
+	if (FLT_IS_ZERO(_w) || FLT_EQUAL(1.0f, _w))
 	{
 		return _Vector3D(_x, _y, _z);
 	}
@@ -225,9 +220,9 @@ _Vector4D::operator _Vector3D()
 	return _Vector3D(_x / _w, _y / _w, _z / _w);
 }
 
-float _Vector4D::Dot(const _Vector4D& a, const _Vector4D& b)const
+float _Vector4D::Dot(const _Vector4D& v4)const
 {
-	return(a._x * b._x + a._y * b._y + a._z * b._z + a._w * b._w);
+	return(_x * v4._x + _y * v4._y + _z * v4._z + _w * v4._w);
 }
 
 

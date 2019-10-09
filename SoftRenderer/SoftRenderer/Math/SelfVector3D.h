@@ -30,7 +30,6 @@ public:
 	_Vector3D GetNormalized()const;
 	//线性插值计算
 	_Vector3D Lerp(const _Vector3D& v3, float factor)const;
-	_Vector3D QuadraticInterpolate(const _Vector3D& a, const _Vector3D& b, float factor);
 
 	//四则运算
 	_Vector3D operator+(const _Vector3D& v3)const;
@@ -42,8 +41,6 @@ public:
 	void operator*=(const float v);
 	void operator/=(const float v);
 	friend _Vector3D operator*(float v, const _Vector3D& v3);
-	void Add(const _Vector3D& src, _Vector3D& dst);
-	void Subtract(const _Vector3D& src, _Vector3D& dst);
 
 	//正负向量
 	_Vector3D operator-()const;
@@ -54,10 +51,10 @@ public:
 	operator const float*() const{ return (const float*)this; }
 
 	//点乘
-	float Dot(const _Vector3D& a, const _Vector3D& b)const;
+	float Dot(const _Vector3D& v3)const;
 
 	//叉乘
-	_Vector3D Cross(const _Vector3D& a, const _Vector3D& b)const;
+	_Vector3D Cross(const _Vector3D& vec)const;
 
 	//向量操作
 
@@ -73,12 +70,16 @@ public:
 	void RotateZ(double angle);
 	_Vector3D GetRotatedZ(double angle)const;
 
-	//普通旋转
+	//绕任意轴旋转
 	void RotateAxis(double angle, const _Vector3D& axis);
 	_Vector3D GetRotatedAxis(double angle, const _Vector3D& axis)const;
 
 	void PackTo01(); //pack to [0, 1] for color
 	_Vector3D GetPackedTo01()const;
+
+	//比较
+	bool operator==(const _Vector3D& v3)const;
+	bool operator!=(const _Vector3D& v3)const;
 
 private:
 	float _x;

@@ -3,6 +3,11 @@
 
 #include <math.h>
 
+#define PI   3.1415926
+#define PI2  6.2831852
+#define A2R  0.0174532922  //角度转弧度
+#define R2A  57.2957804905 //弧度转角度
+
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
 #endif

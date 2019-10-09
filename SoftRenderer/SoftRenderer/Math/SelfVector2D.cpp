@@ -30,7 +30,7 @@ float _Vector2D::GetY() const
 void _Vector2D::Normalized()
 {
 	float len = GetLength();
-	if (1 == len || 0 == len)
+	if (FLT_EQUAL(1.0f, len) || FLT_IS_ZERO(len))
 	{
 		return;
 	}
@@ -55,11 +55,6 @@ _Vector2D _Vector2D::GetNormalized() const
 _Vector2D _Vector2D::Lerp(const _Vector2D& v2, float factor) const
 {
 	return (*this) * (1.0f - factor) + v2 * factor;
-}
-
-_Vector2D _Vector2D::QuadraticInterpolate(const _Vector2D& a, const _Vector2D& b, float factor)
-{
-	return (*this) * (1.0f - factor) * (1.0 - factor) + 2 * a * factor * (1.0 - factor) + b * factor * factor;
 }
 
 void _Vector2D::operator-=(const _Vector2D& v2)
@@ -128,9 +123,9 @@ _Vector2D _Vector2D::operator+() const
 	return *this;
 }
 
-float _Vector2D::Dot(const _Vector2D& a, const _Vector2D& b)const
+float _Vector2D::Dot(const _Vector2D& v2)const
 {
-	return (float)(a._x * b._x + a._y * b._y);
+	return (float)(_x * v2._x + _y * v2._y);
 }
 
 _Vector2D _Vector2D::operator-(const _Vector2D& v2) const

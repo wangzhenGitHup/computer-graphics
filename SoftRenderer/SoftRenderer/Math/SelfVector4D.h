@@ -27,7 +27,6 @@ public:
 	void LoadOne();
 	//线性插值
 	_Vector4D Lerp(const _Vector4D& v4, float factor)const;
-	_Vector4D QuadraticInterpolate(const _Vector4D& a, const _Vector4D& b, float factor)const;
 	//归一化向量
 	void Normalized();
 	//得到归一化向量
@@ -72,7 +71,7 @@ public:
 	operator _Vector3D();
 
 	//点乘
-	float Dot(const _Vector4D& a, const _Vector4D& b)const;
+	float Dot(const _Vector4D& v4)const;
 
 
 private:
