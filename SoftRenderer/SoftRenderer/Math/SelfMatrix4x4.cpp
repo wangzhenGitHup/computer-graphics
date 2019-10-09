@@ -696,11 +696,11 @@ void Matrix4x4::SetOrtho(float left, float right, float bottom, float top, float
 	_elements[0] = 2.0f / (right - left);
 	
 	_elements[5] = 2.0f / (top - bottom);
-	_elements[10] = -2.0f / (far - near);//1.0f / (far - near);
+	_elements[10] = 1.0f / (far - near);
 
 	_elements[12] = -(right + left) / (right - left);
 	_elements[13] = -(top + bottom) / (top - bottom);
-	_elements[14] = -(far + near) / (far - near); //-near / (far - near);
+	_elements[14] = -near / (far - near);
 }
 
 void Matrix4x4::SetPerspective(float fovy, float aspect, float near, float far)
@@ -796,9 +796,9 @@ void Matrix4x4::SetPerspective(float left, float right, float bottom, float top,
 	_elements[5] = 2 * near / top - bottom;
 	_elements[8] = (right + left) / right - left;
 	_elements[9] = (top + bottom) / top - bottom;
-	_elements[10] = -(far + near) / (far - near);// far / far - near;
+	_elements[10] = far / far - near;
 	_elements[11] = 1;
-	_elements[14] = -(2 * far * near) / (far - near);//-far * near / far - near;
+	_elements[14] = -far * near / far - near;
 }
 
 void Matrix4x4::SetTranslationPart(const _Vector3D& v3)
