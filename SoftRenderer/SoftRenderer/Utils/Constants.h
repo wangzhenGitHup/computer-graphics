@@ -25,11 +25,12 @@
 #define  D_DISTANCE    1.0
 
 
-#define ALL_VERTEX_AFTER_NEAR_CLIP             0x01  //3个点都在近剪裁面后面
-#define A_VERTEX_AFTER_NEAR_CLIP               0x02  //A点在近剪裁面后面
-#define B_VERTEX_AFTER_NEAR_CLIP               0x04  //B点在近剪裁面后面
-#define C_VERTEX_AFTER_NEAR_CLIP               0x08  //C点在近剪裁面后面
-#define AB_VERTEX_AFTER_NEAR_CLIP              0x0A  //AB点在近剪裁面后面
-#define AC_VERTEX_AFTER_NEAR_CLIP              0x0B  //AC点在近剪裁面后面
-#define BC_VERTEX_AFTER_NEAR_CLIP              0x0C  //BC点在近剪裁面后面
+#define ALL_VERTEX_AFTER_NEAR_CLIP					0x01  //3个点都在近剪裁面后面
+#define A_VERTEX_AFTER_NEAR_CLIP					0x02  //A点在近剪裁面后面
+#define B_VERTEX_AFTER_NEAR_CLIP					0x04  //B点在近剪裁面后面
+#define C_VERTEX_AFTER_NEAR_CLIP					0x08  //C点在近剪裁面后面
+#define AB_VERTEX_AFTER_NEAR_CLIP					0x0A  //AB点在近剪裁面后面
+#define AC_VERTEX_AFTER_NEAR_CLIP					0x0B  //AC点在近剪裁面后面
+#define BC_VERTEX_AFTER_NEAR_CLIP					0x0C  //BC点在近剪裁面后面
+#define ALL_NOT_VERTEX_AFTER_NEAR_CLIP              0x0D  //所有点都在近剪裁面范围内
 #endif
