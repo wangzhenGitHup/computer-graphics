@@ -9,9 +9,9 @@ Matrix4x4::Matrix4x4()
 	LoadIdentity();
 }
 
-Matrix4x4::Matrix4x4(float m0, float m1, float m2, float m3, 
-	float m4, float m5, float m6, float m7, 
-	float m8, float m9, float m10, float m11, 
+Matrix4x4::Matrix4x4(float m0, float m1, float m2, float m3,
+	float m4, float m5, float m6, float m7,
+	float m8, float m9, float m10, float m11,
 	float m12, float m13, float m14, float m15)
 {
 	_elements[0] = m0;
@@ -119,21 +119,21 @@ void Matrix4x4::LoadZero()
 Matrix4x4 Matrix4x4::operator+(const Matrix4x4& matrix) const
 {
 	return Matrix4x4(_elements[0] + matrix._elements[0],
-		_elements[1] + matrix._elements[1], 
-		_elements[2] + matrix._elements[2], 
-		_elements[3] + matrix._elements[3], 
-		_elements[4] + matrix._elements[4], 
-		_elements[5] + matrix._elements[5], 
-		_elements[6] + matrix._elements[6], 
-		_elements[7] + matrix._elements[7], 
-		_elements[8] + matrix._elements[8], 
-		_elements[9] + matrix._elements[9], 
-		_elements[10] + matrix._elements[10], 
-		_elements[11] + matrix._elements[11], 
-		_elements[12] + matrix._elements[12], 
-		_elements[13] + matrix._elements[13], 
-		_elements[14] + matrix._elements[14], 
-		_elements[15] + matrix._elements[15] );
+		_elements[1] + matrix._elements[1],
+		_elements[2] + matrix._elements[2],
+		_elements[3] + matrix._elements[3],
+		_elements[4] + matrix._elements[4],
+		_elements[5] + matrix._elements[5],
+		_elements[6] + matrix._elements[6],
+		_elements[7] + matrix._elements[7],
+		_elements[8] + matrix._elements[8],
+		_elements[9] + matrix._elements[9],
+		_elements[10] + matrix._elements[10],
+		_elements[11] + matrix._elements[11],
+		_elements[12] + matrix._elements[12],
+		_elements[13] + matrix._elements[13],
+		_elements[14] + matrix._elements[14],
+		_elements[15] + matrix._elements[15]);
 }
 
 Matrix4x4 Matrix4x4::operator+() const
@@ -155,7 +155,7 @@ _Vector3D Matrix4x4::GetRotatedVector3D(const _Vector3D& v3) const
 {
 	return _Vector3D(
 		_elements[0] * v3.GetX() + _elements[4] * v3.GetY() + _elements[8] * v3.GetZ(),
-		_elements[1] * v3.GetX() + _elements[5] * v3.GetY() + _elements[9] * v3.GetZ(), 
+		_elements[1] * v3.GetX() + _elements[5] * v3.GetY() + _elements[9] * v3.GetZ(),
 		_elements[2] * v3.GetX() + _elements[6] * v3.GetY() + _elements[10] * v3.GetZ()
 		);
 }
@@ -182,8 +182,8 @@ void Matrix4x4::InverseTranslateVector3D(_Vector3D& v3) const
 _Vector3D Matrix4x4::GetTranslatedVector3D(const _Vector3D& v3) const
 {
 	return _Vector3D(
-		v3.GetX() + _elements[12], 
-		v3.GetY() + _elements[13], 
+		v3.GetX() + _elements[12],
+		v3.GetY() + _elements[13],
 		v3.GetZ() + _elements[14]
 		);
 }
@@ -257,29 +257,29 @@ Matrix4x4 Matrix4x4::GetInverseTranspose()const
 
 	//第1行第1列的代数余子式值
 	followMat.SetElement(0,
-		tmp[0] * _elements[5] + 
-		tmp[3] * _elements[6] + 
-		tmp[4] * _elements[7] - 
-		tmp[1] * _elements[5] - 
-		tmp[2] * _elements[6] - 
+		tmp[0] * _elements[5] +
+		tmp[3] * _elements[6] +
+		tmp[4] * _elements[7] -
+		tmp[1] * _elements[5] -
+		tmp[2] * _elements[6] -
 		tmp[5] * _elements[7]);
 
 	//第1行第2列的代数余子式值
 	followMat.SetElement(1,
-		tmp[1] * _elements[4] + 
-		tmp[6] * _elements[6] + 
-		tmp[9] * _elements[7] - 
-		tmp[0] * _elements[4] - 
-		tmp[7] * _elements[6] - 
+		tmp[1] * _elements[4] +
+		tmp[6] * _elements[6] +
+		tmp[9] * _elements[7] -
+		tmp[0] * _elements[4] -
+		tmp[7] * _elements[6] -
 		tmp[8] * _elements[7]);
 
 	//第1行第3列的代数余子式值
 	followMat.SetElement(2,
-		tmp[2] * _elements[4] + 
-		tmp[7] * _elements[5] + 
-		tmp[10] * _elements[7] - 
-		tmp[3] * _elements[4] - 
-		tmp[6] * _elements[5] - 
+		tmp[2] * _elements[4] +
+		tmp[7] * _elements[5] +
+		tmp[10] * _elements[7] -
+		tmp[3] * _elements[4] -
+		tmp[6] * _elements[5] -
 		tmp[11] * _elements[7]);
 
 	//第1行第4列的代数余子式值
@@ -500,10 +500,10 @@ void Matrix4x4::SetRotationAxis(const double angle, const _Vector3D& axis)
 	//又因为 Vv = V - Vh = V - (V.R)*R;
 	//所以 Vv' = [V - (V.R)*R]*cosa + (R x V)*sina;
 	//可得 V' = Vv' + Vh = [V - (V.R)*R]*cosa + (R x V)*sina + (V.R)*R
-	
+
 	//确定第一个基向量[1, 0, 0]代入可得：
 	//[Rx * Rx(1 - cosa) + cosa,  Rx * Ry(1 - cosa) + Rz * sina,  Rx * Rz(1 -cosa) - Ry * sina]
-	
+
 	//确定第二个基向量[0, 1, 0]代入可得：
 	//[Rx * Ry(1 - cosa) - Rz * sina,  Ry * Ry(1 - cosa) + cosa, Ry * Rz(1 - cosa) + Rx * sina]
 
@@ -692,11 +692,15 @@ void Matrix4x4::SetOrtho(float left, float right, float bottom, float top, float
 	// |   0           2/(T-B)       0               0 |
 	// |   0            0            1/(F-N)         0 |
 	// | -(R+L)/(R-L)  -(T+B)/(T-B)  -N/(F-N)        1 |
+
 	LoadIdentity();
 	_elements[0] = 2.0f / (right - left);
-	
+
 	_elements[5] = 2.0f / (top - bottom);
-	_elements[10] = 1.0f / (far - near);
+
+	//#issue 这块 按照推导的公式的应该是1.0，但是阴影会有问题，改成-2.0阴影效果会好很多，暂且没想到具体原因，待完善
+	_elements[10] = -2.0f / (far - near);
+	//_elements[10] = 1.0f / (far - near);
 
 	_elements[12] = -(right + left) / (right - left);
 	_elements[13] = -(top + bottom) / (top - bottom);
@@ -733,7 +737,7 @@ void Matrix4x4::SetPerspective(float fovy, float aspect, float near, float far)
 
 void Matrix4x4::SetPerspective(float left, float right, float bottom, float top, float near, float far)
 {
-	//推导过程： 左手坐标系
+	//推导过程： 为了方便推导,用左手坐标系
 	//              ▴ y
 	//              │         
 	//              │        
@@ -752,53 +756,90 @@ void Matrix4x4::SetPerspective(float left, float right, float bottom, float top,
 	//                                       ↘  |  (x,y,z)
 	//
 	//
-	//由图可得：L2/L1 = n/z
-	//所以 x' / x = n / z; y' / y = n / z; ===>  x' = x * n / z; y' = y * n / z;（1）
-	//同样，把坐标映射到规范视域体中的推导如正交投影公式一样
-	//x'' = 2*x' / (right - left) - [(right + left) / (right - left)];
-	//y'' = 2*y' / (top - bottom) - [(top + bottom) / (top - bottom)];
-	//把公式中的x'换成（1）中的x'可得：
-	// x'' = 2*n / (right - left) * x / z - [(right + left) / (right - left)]
-	//把公式中的y'换成（1）中的y'可得：
-	//y'' = 2*n / (top - bottom) * y / z - [(top - bottom) / (top + bottom)]
-	//同时乘以z可得：
-	// x''* z = 2*n / (right - left) * x - [(right + left) / (right - left)] * z;
-	// y'' * z = 2*n / (top - bottom) * y - [ (top + bottom) / (top - bottom)] * z;
-	// 为了把这些等式写进矩阵中，需要写成这种形式：
-	//x'' = c1*x + c2*y + c3*z + c4; y'' = c5*x + c6*y + c7*z + c8;
-	//如果能找到办法获得z'*z的公式， 就可以写一个变换矩阵把(x,y,z)映射到(x''*z, y''*z, z''*z)
-	//然后只要把各个部分除以点z，就会得到想要的(x'',y'',z'').
+	
+	
+	//根据三角形相似性质可得： x' / x = near / z ==> x' = near * x / z
 
-	//我们假设z''*z = p*z + q;（2） (z=n时z''=0, z=f时z''=1),D3D标准z的范围[0,1];代入可得：
-	//0 = p*n + q; ==>q = -p*n
-	//f = p*f + q; ==> f = p*f - p*n ==> f = p*(f-n); ==> p = f/(f-n); ==> q = -nf/(f-n);
-	//代入公式（2）中可得：z''*z = f/f-n * z - f*n/f-n;
-	//整理可得：
-	// x'' * z = 2*n / (right-left)*x - (right+left / right-left);
-	//y'' * z = 2*n / (top-bottom)*y - (top+bottom / top-bottom);
-	//z'' * z = f/f-n * z - (f*n / f-n);
-	//w'' * z = 1 * z;
-	//得到矩阵:(right = R, left = L, top = T, bottom = B, far = F, near = N)
-	// |2*N/R-L     0       -(R+L)/(R-L)       0|
-	// |0          2*N/T-B  -(T+B)/(T-B)       0|
-	// |0           0       F/F-N       -F*N/F-N|
-	// |0           0         1                0|
+	//同理可得: y' = near * y / z;
 
-	//转置下：
-	// |2*N/R-L       0              0          0|
-	// |0             2*N/T-B        0          0|
-	// |-(R+L)/(R-L)  -(T+B)/(T-B)   F/F-N      1|
-	// |0             0              -F*N/F-N   0|
+	//因为x', y'都跟z相关，因此将z作为齐次坐标的值 ==> w = z;
 
+	//将得到的(x', y', z') NDC化，因为NDC为中心在原点的单位立方体
+
+	//因此需要将x', y'规范到[-1, 1]之间
+
+	//所以 同正交矩阵过程一样
+
+	// left <= x' <= right， 同时减去left ==> 0 <= x' - left <= right - left
+
+	//因为 right - left > 0 ==> 同时除以 right - left ==>  
+
+	//0 <= (x' - left) / (right - left) <= 1
+
+	//同时乘以2 ==>  0 <= 2(x' - left) / (right - left) <= 2
+
+	//规范到[-1, 1]区间，同时减去1 ==>
+
+	//-1 <= 2(x' - left) / (right - left) - 1 <= 1
+
+	//整理可得：-1 <= 2x' - left - right / right - left <= 1 ==>
+
+	//Xndc = [2x'  / (right - left)] - [(right + left) / (right - left)]
+
+	//又因为 x' = near * x / z ==> 
+
+	// Xndc = [2 * near * x / z * (right - left)] -  [(left + right) / (right - left)]
+
+	//同理可得： Yndc = [2* near * y / z * (top - bottom)] - [(top + bottom) / (top - bottom)] 
+
+	//目前构建的矩阵
+
+	//    |2 * near / (right - left)           0                    left + right / right - left    0|    
+	//    |0                          2 * near / (top - bottom)     top + bottom / top - bottom    0| 
+	//    |0                                   0                      A                            B|    
+	//    |0                                   0                      1                            0|    
+	//其中 A 和 B 是未知数 需要求得
+
+	//因为 z的齐次坐标等于 A * z + B ==>
+
+	// Zndc = Az + B / z == >
+
+	//D3D标准z为[0,1]
+
+	//当z为 near时  Zndc = 0
+
+	//当z为 far时  Zndc = 1
+
+	//综上推导出
+	// 0 = A * near / near + B / near ==> A = -B / near
+	// 1 = A * far / far + B / far    ==> 1 = -B / near + B / far ==> B =  near * far / near - far ==>
+
+	//A = -far / near - far
+	
+	//最终矩阵
+
+	//    |2 * near / (right - left)           0                    left + right / right - left                          0|    
+	//    |0                          2 * near / (top - bottom)     top + bottom / top - bottom                          0| 
+	//    |0                                   0                    -far / near - far              near * far / near - far|    
+	//    |0                                   0                      1                                                  0|    
+	
+	//openGL差异 在做透视除法时w是-z, 所以将1变为-1 即可得openGL投影矩阵
 
 	LoadZero();
-	_elements[0] = 2 * near / right - left;
-	_elements[5] = 2 * near / top - bottom;
-	_elements[8] = (right + left) / right - left;
-	_elements[9] = (top + bottom) / top - bottom;
+
+	if (FLT_EQUAL(left, right) || FLT_EQUAL(top, bottom) || FLT_EQUAL(near, far))
+	{
+		return;
+	}
+
+
+	_elements[0] = (2 * near) / (right - left);
+	_elements[5] = (2 * near) / (top - bottom);
+	_elements[8] = (right + left) / (right - left);
+	_elements[9] = (top + bottom) / (top - bottom);
 	_elements[10] = far / far - near;
-	_elements[11] = 1;
-	_elements[14] = -far * near / far - near;
+	_elements[11] = -1;
+	_elements[14] = (-far * near) / (far - near);
 }
 
 void Matrix4x4::SetTranslationPart(const _Vector3D& v3)
@@ -903,16 +944,16 @@ void Matrix4x4::operator/=(const float v)
 _Vector4D Matrix4x4::operator*=(const _Vector4D& v4) const
 {
 	//主要是为了减少乘法运算
-	if (_elements[3] == 0.0f && 
-		_elements[7] == 0.0f && 
-		_elements[11] == 0.0f && 
+	if (_elements[3] == 0.0f &&
+		_elements[7] == 0.0f &&
+		_elements[11] == 0.0f &&
 		_elements[15] == 1.0f)
 	{
 		return _Vector4D(
-				_elements[0] * v4.GetX() + _elements[4] * v4.GetY() + _elements[8] * v4.GetZ() + _elements[12] * v4.GetW(), 
-				_elements[1] * v4.GetX() + _elements[5] * v4.GetY() + _elements[9] * v4.GetZ() + _elements[13] * v4.GetW(), 
-				_elements[2] * v4.GetX() + _elements[6] * v4.GetY() + _elements[10] * v4.GetZ() + _elements[14] * v4.GetW(),
-				v4.GetW()
+			_elements[0] * v4.GetX() + _elements[4] * v4.GetY() + _elements[8] * v4.GetZ() + _elements[12] * v4.GetW(),
+			_elements[1] * v4.GetX() + _elements[5] * v4.GetY() + _elements[9] * v4.GetZ() + _elements[13] * v4.GetW(),
+			_elements[2] * v4.GetX() + _elements[6] * v4.GetY() + _elements[10] * v4.GetZ() + _elements[14] * v4.GetW(),
+			v4.GetW()
 			);
 	}
 
@@ -1055,17 +1096,17 @@ _Vector4D Matrix4x4::operator*(const _Vector4D& v4) const
 		FLT_EQUAL(_elements[15], 1.0f))
 	{
 		return _Vector4D(
-			_elements[0] * v4.GetX() + 
-			_elements[4] * v4.GetY() + 
-			_elements[8] * v4.GetZ() + 
+			_elements[0] * v4.GetX() +
+			_elements[4] * v4.GetY() +
+			_elements[8] * v4.GetZ() +
 			_elements[12] * v4.GetW(),
 
-			_elements[1] * v4.GetX() + 
+			_elements[1] * v4.GetX() +
 			_elements[5] * v4.GetY() +
 			_elements[9] * v4.GetZ() +
 			_elements[13] * v4.GetW(),
 
-			_elements[2] * v4.GetX() + 
+			_elements[2] * v4.GetX() +
 			_elements[6] * v4.GetY() +
 			_elements[10] * v4.GetZ() +
 			_elements[14] * v4.GetW(),

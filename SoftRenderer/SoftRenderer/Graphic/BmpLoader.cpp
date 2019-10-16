@@ -45,16 +45,16 @@ bool BmpLoader::loadBitmap(const char* fileName)
 		return false;
 	}
 
-	_dataPos =   *(int*)&(_header[0X0A]); //读取位置，位置在文件头0X0A处
+	_dataPos = *(int*)&(_header[0X0A]); //读取位置，位置在文件头0X0A处
 	_imageSize = *(int*)&(_header[0X22]); //图片内容大小数据，位置在文件头0X22处
-	_width =     *(int*)&(_header[0X12]); //图片宽度数据，位置在文件头0X12处
-	_height =    *(int*)&(_header[0X16]); //图片高度数据，位置在文件头0X16处
+	_width = *(int*)&(_header[0X12]); //图片宽度数据，位置在文件头0X12处
+	_height = *(int*)&(_header[0X16]); //图片高度数据，位置在文件头0X16处
 
 	if (_imageSize == 0)
 	{
 		_imageSize = _width * _height * 3; //图片内容数据 == 总像素x3
 	}
-	
+
 	if (_dataPos == 0)
 	{
 		_dataPos = 54; //文件头读完，位置在54字节处

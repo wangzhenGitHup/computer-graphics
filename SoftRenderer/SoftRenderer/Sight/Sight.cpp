@@ -5,6 +5,7 @@ Sight::Sight(float x, float y, float z)
 	_x = x;
 	_y = y;
 	_z = z;
+	_h = 2.0f;
 	_rotate_x = _rotate_y = _rotate_z = 0.0f;
 }
 

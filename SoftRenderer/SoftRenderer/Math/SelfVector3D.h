@@ -86,4 +86,5 @@ private:
 	float _y;
 	float _z;
 };
+
 #endif

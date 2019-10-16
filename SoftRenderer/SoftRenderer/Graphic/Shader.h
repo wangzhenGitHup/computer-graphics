@@ -40,5 +40,7 @@ void simpleFragShader(Fragment input, FragmentOut& output);
 void storeVertShader(Vertex input, VertexOut& output);
 //存储片段数据
 void storeFragShader(Fragment input, FragmentOut& output);
+//设置材质自身光照颜色
+void setAmbientMatFactor(const _Vector4D& mat);
 
 #endif

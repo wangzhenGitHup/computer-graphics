@@ -91,22 +91,22 @@ void Quat_To_Vector3D_Theta(const QuaternionsUnion& pQuat, _Vector3D& vec, float
 
 }
 
-void Quat_Add(const QuaternionsUnion& pQuat1, 
-	const QuaternionsUnion& pQuat2, 
+void Quat_Add(const QuaternionsUnion& pQuat1,
+	const QuaternionsUnion& pQuat2,
 	QuaternionsUnion& pResult)
 {
 
 }
 
-void Quat_Sub(const QuaternionsUnion& pQuat1, 
-	const QuaternionsUnion& pQuat2, 
+void Quat_Sub(const QuaternionsUnion& pQuat1,
+	const QuaternionsUnion& pQuat2,
 	QuaternionsUnion& pResult)
 {
 
 }
 
-void Quat_Mul(const QuaternionsUnion& pQuat1, 
-	const QuaternionsUnion& pQuat2, 
+void Quat_Mul(const QuaternionsUnion& pQuat1,
+	const QuaternionsUnion& pQuat2,
 	QuaternionsUnion& pResult)
 {
 	float prd_0 = (pQuat1._z - pQuat1._y) * (pQuat2._y - pQuat2._z);
@@ -156,9 +156,9 @@ void Quat_Inverse(const QuaternionsUnion& pQuat, QuaternionsUnion& pResult)
 
 }
 
-void Quat_Triple_Product(const QuaternionsUnion& pQuat1, 
-	const QuaternionsUnion& pQuat2, 
-	const QuaternionsUnion& pQuat3, 
+void Quat_Triple_Product(const QuaternionsUnion& pQuat1,
+	const QuaternionsUnion& pQuat2,
+	const QuaternionsUnion& pQuat3,
 	QuaternionsUnion& pResult)
 {
 

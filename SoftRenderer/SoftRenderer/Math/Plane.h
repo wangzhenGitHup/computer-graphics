@@ -1,4 +1,4 @@
-#ifndef  __PLANE__H__
+ï»¿#ifndef  __PLANE__H__
 #define  __PLANE__H__
 
 #include "SelfVector3D.h"
@@ -19,11 +19,11 @@ public:
 	int ClassifyPoint(const _Vector3D& vec)const;
 	Plane Lerp(const Plane& plane, float factor);
 
-	//±È½Ï
+	//Â±ÃˆÂ½Ã
 	bool operator==(const Plane& plane)const;
 	bool operator!=(const Plane& plane)const;
 
-	//Õı¸º
+	//Ã•Ã½Â¸Âº
 	Plane operator-()const;
 	Plane operator+()const;
 

@@ -40,7 +40,7 @@ void initDevice2Buffer(FrameBuffer** pFrameBuffer1, FrameBuffer** pFrameBuffer2,
 //清空深度和颜色缓冲
 void releaseFrameBuffer(FrameBuffer** pFrameBuffer);
 void releaseDepthBuffer(DepthBuffer** pDepthBuffer);
-void releaseDeviceBuffer(FrameBuffer** pFrameBuffer, DepthBuffer** pDepthBuffer);
+void releaseDevice(FrameBuffer** pFrameBuffer, DepthBuffer** pDepthBuffer);
 void releaseDevice2Buffer(FrameBuffer** pFrameBuffer1, FrameBuffer** pFrameBuffer2,
 	DepthBuffer** pDepthBuffer);
 
@@ -65,11 +65,11 @@ void convertToScreen(int height, int& sy);
 bool cullFace(Face* pFace, int flag);
 
 //视口变化(到屏幕坐标上)
-void viewPortTransform(float ndcX, float ndcY, 
-	float width, float height, 
+void viewPortTransform(float ndcX, float ndcY,
+	float width, float height,
 	int& screenX, int& screenY);
-void viewPortTransform(float ndcX, float ndcY, 
-	float width, float height, 
+void viewPortTransform(float ndcX, float ndcY,
+	float width, float height,
 	float& screenX, float& screenY);
 
 //逆视口变化
@@ -78,26 +78,26 @@ void inverseViewPortTransform(int screenX, int screenY,
 	float& ndcX, float& ndcY);
 
 //光栅化
-void rasterize(FrameBuffer* pFrameBuffer, DepthBuffer* pDepthBuffer, 
+void rasterize(FrameBuffer* pFrameBuffer, DepthBuffer* pDepthBuffer,
 	FragmentShader fs, Face* face);
 
 //颜色混合
-void blend(BlendData& blendData, 
+void blend(BlendData& blendData,
 	unsigned char& finalR, unsigned char& finalG, unsigned char& finalB);
 
 //计算边界
-void calculateBounds(float srcAX, float scrAY, 
-	float scrBX, float scrBY, 
-	float scrCX, float scrCY, 
+void calculateBounds(float srcAX, float scrAY,
+	float scrBX, float scrBY,
+	float scrCX, float scrCY,
 	float startY, float& x1, float& x2);
 
 //绘制三角面
 void drawFace(FrameBuffer* pFrameBuffer, DepthBuffer* pDepthBuffer,
-	VertexShader vs, FragmentShader fs, 
-	int cullFlag, Vertex* vertexBuffer, 
+	VertexShader vs, FragmentShader fs,
+	int cullFlag, Vertex* vertexBuffer,
 	int count);
 void drawFace(FrameBuffer* pFrameBuffer, DepthBuffer* pDepthBuffer,
-	VertexShader vs, FragmentShader fs, 
+	VertexShader vs, FragmentShader fs,
 	int cullFlag, Face* pFace);
 
 //设置颜色缓冲中的颜色值
@@ -106,7 +106,7 @@ void drawPixel(FrameBuffer* pFrameBuffer,
 
 //读取颜色缓冲
 void readFrameBuffer(FrameBuffer* pFrameBuffer,
-	int x, int y, 
+	int x, int y,
 	unsigned char& r, unsigned char& g, unsigned char& b);
 
 //写入深度缓冲
@@ -116,7 +116,7 @@ void writeDepth(DepthBuffer* pDepthBuffer, int x, int y, float depth);
 float readDepth(DepthBuffer* pDepthBuffer, int x, int y);
 
 //规范化颜色值[0, 255]
-void normalizeColor(float r, float g, float b, 
+void normalizeColor(float r, float g, float b,
 	unsigned char& red, unsigned char& green, unsigned char& blue);
 
 //初始化预备面

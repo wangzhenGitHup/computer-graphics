@@ -8,7 +8,7 @@
 
 //视点
 Matrix4x4 lookAt(float eyeX, float eyeY, float eyeZ,
-	float centerX, float centerY, float centerZ,
+	float targetX, float targetY, float targetZ,
 	float upX, float upY, float upZ);
 //投影矩阵
 Matrix4x4 perspective(float fovy, float aspect, float zNear, float zFar);

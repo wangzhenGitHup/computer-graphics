@@ -67,13 +67,13 @@ void initDevice(FrameBuffer** pFrameBuffer, DepthBuffer** pDepthBuffer,
 	initDepthBuffer(pDepthBuffer, width, height);
 }
 
-void releaseDeviceBuffer(FrameBuffer** pFrameBuffer, DepthBuffer** pDepthBuffer)
+void releaseDevice(FrameBuffer** pFrameBuffer, DepthBuffer** pDepthBuffer)
 {
 	releaseFrameBuffer(pFrameBuffer);
 	releaseDepthBuffer(pDepthBuffer);
 }
 
-void initDevice2Buffer(FrameBuffer** pFrameBuffer1, FrameBuffer** pFrameBuffer2, 
+void initDevice2Buffer(FrameBuffer** pFrameBuffer1, FrameBuffer** pFrameBuffer2,
 	DepthBuffer** pDepthBuffer, int width, int height)
 {
 	initFrameBuffer(pFrameBuffer1, width, height);
@@ -85,14 +85,14 @@ void initDevice2Buffer(FrameBuffer** pFrameBuffer1, FrameBuffer** pFrameBuffer2,
 	_bBuffersReady = false;
 }
 
-void releaseDevice2Buffer(FrameBuffer** frameBuffer1, FrameBuffer** frameBuffer2, 
-	DepthBuffer** depthBuffer)
+void releaseDevice2Buffer(FrameBuffer** pFrameBuffer1, FrameBuffer** pFrameBuffer2,
+	DepthBuffer** pDepthBuffer)
 {
 	_pFrontBuffer = nullptr;
 	_pBackBuffer = nullptr;
-	releaseFrameBuffer(frameBuffer1);
-	releaseFrameBuffer(frameBuffer2);
-	releaseDepthBuffer(depthBuffer);
+	releaseFrameBuffer(pFrameBuffer1);
+	releaseFrameBuffer(pFrameBuffer2);
+	releaseDepthBuffer(pDepthBuffer);
 }
 
 void clearScreen(FrameBuffer* pFrameBuffer,
@@ -223,8 +223,8 @@ bool cullFace(Face* pFace, int flag)
 	return false;
 }
 
-void viewPortTransform(float ndcX, float ndcY, 
-	float width, float height, 
+void viewPortTransform(float ndcX, float ndcY,
+	float width, float height,
 	int& screenX, int& screenY)
 {
 	//从屏幕中心开始变化
@@ -236,8 +236,8 @@ void viewPortTransform(float ndcX, float ndcY,
 	screenY = (int)(Roundf(offsetY * (height - 1.0f)));
 }
 
-void viewPortTransform(float ndcX, float ndcY, 
-	float width, float height, 
+void viewPortTransform(float ndcX, float ndcY,
+	float width, float height,
 	float& screenX, float& screenY)
 {
 	//从屏幕中心开始变化
@@ -249,8 +249,8 @@ void viewPortTransform(float ndcX, float ndcY,
 	screenY = offsetY * (height - 1.0f);
 }
 
-void inverseViewPortTransform(int screenX, int screenY, 
-	float width, float height, 
+void inverseViewPortTransform(int screenX, int screenY,
+	float width, float height,
 	float& ndcX, float& ndcY)
 {
 	float scaleX = (float)screenX / (width - 1.0f);
@@ -266,13 +266,13 @@ void rasterize(FrameBuffer* pFrameBuffer, DepthBuffer* pDepthBuffer,
 	float scrAX, scrAY, scrBX, scrBY, scrCX, scrCY;
 
 	//得到3个二维坐标，3个顶点最终在屏幕上的位置
-	viewPortTransform(face->_ndcA.GetX(), face->_ndcA.GetY(), 
+	viewPortTransform(face->_ndcA.GetX(), face->_ndcA.GetY(),
 		(float)pFrameBuffer->width, (float)pFrameBuffer->height,
 		scrAX, scrAY);
-	viewPortTransform(face->_ndcB.GetX(), face->_ndcB.GetY(), 
+	viewPortTransform(face->_ndcB.GetX(), face->_ndcB.GetY(),
 		(float)pFrameBuffer->width, (float)pFrameBuffer->height,
 		scrBX, scrBY);
-	viewPortTransform(face->_ndcC.GetX(), face->_ndcC.GetY(), 
+	viewPortTransform(face->_ndcC.GetX(), face->_ndcC.GetY(),
 		(float)pFrameBuffer->width, (float)pFrameBuffer->height,
 		scrCX, scrCY);
 
@@ -290,9 +290,9 @@ void rasterize(FrameBuffer* pFrameBuffer, DepthBuffer* pDepthBuffer,
 	{
 		float x1, x2;
 		//检查三角形，调整x坐标
-		calculateBounds(scrAX, scrAY, 
-			scrBX, scrBY, 
-			scrCX, scrCY, 
+		calculateBounds(scrAX, scrAY,
+			scrBX, scrBY,
+			scrCX, scrCY,
 			(float)startY,
 			x1, x2);
 
@@ -310,11 +310,11 @@ void rasterize(FrameBuffer* pFrameBuffer, DepthBuffer* pDepthBuffer,
 				(float)pFrameBuffer->width, (float)pFrameBuffer->height,
 				ndcX, ndcY);
 
-			_Vector4D ndcPixel(ndcX, ndcY, 1, 0);
+			_Vector4D ndcPixel(ndcX, ndcY, 1.0f, 0.0f);
 			//剪裁空间下坐标
 			_Vector4D proportion4D = face->_clipMatrixInverse * ndcPixel;
 			_Vector3D proportionFragment(proportion4D.GetX(), proportion4D.GetY(), proportion4D.GetZ());
-			
+
 			float pa = proportionFragment.GetX();
 			float pb = proportionFragment.GetY();
 			float pc = proportionFragment.GetZ();
@@ -331,13 +331,13 @@ void rasterize(FrameBuffer* pFrameBuffer, DepthBuffer* pDepthBuffer,
 
 			//计算3个顶点对片段产生影响的权重
 			Fragment frag;
-			interpolate3f(pa, pb, pc, 
-				face->_clipA.w, face->_clipB.w, face->_clipC.w, 
+			interpolate3f(pa, pb, pc,
+				face->_clipA.w, face->_clipB.w, face->_clipC.w,
 				clipW);
-			interpolate3f(pa, pb, pc, 
-				face->_clipA.z, face->_clipB.z, face->_clipC.z, 
+			interpolate3f(pa, pb, pc,
+				face->_clipA.z, face->_clipB.z, face->_clipC.z,
 				frag.ndcZ);
-			
+
 			//齐次映射后 坐标z的值
 			float inverseClipW = 1.0f / clipW;
 			frag.ndcZ *= inverseClipW;
@@ -445,9 +445,9 @@ void rasterize(FrameBuffer* pFrameBuffer, DepthBuffer* pDepthBuffer,
 	}
 }
 
-void calculateBounds(float scrAX, float scrAY, 
+void calculateBounds(float scrAX, float scrAY,
 	float scrBX, float scrBY,
-	float scrCX, float scrCY, 
+	float scrCX, float scrCY,
 	float startY, float& x1, float& x2)
 {
 	//根据直线的参数化方程求得x坐标  p = p0 + (p1 - p0) * factor;
@@ -457,37 +457,38 @@ void calculateBounds(float scrAX, float scrAY,
 	//平顶三角形和平底三角形情况
 	if (scrAY == scrBY) //平顶
 	{
-		float paramAC = (startY - scrAY) / (scrCY - scrAY);//线段ac
-		float paramBC = (startY - scrBY) / (scrCY - scrBY);//线段bc
+		float paramAC = (startY - scrAY) / (scrCY - scrAY);//直线ac
+		float paramBC = (startY - scrBY) / (scrCY - scrBY);//直线bc
 		x1 = (scrCX - scrAX) * paramAC + scrAX;
 		x2 = (scrCX - scrBX) * paramBC + scrBX;
 	}
 	else if (scrAY == scrCY) //平顶
 	{
-		float paramAB = (startY - scrAY) / (scrBY - scrAY); //线段ab
-		float paramBC = (startY - scrBY) / (scrCY - scrBY); //线段bc
+		float paramAB = (startY - scrAY) / (scrBY - scrAY); //直线ab
+		float paramBC = (startY - scrBY) / (scrCY - scrBY); //直线bc
 		x1 = (scrBX - scrAX) * paramAB + scrAX;
 		x2 = (scrCX - scrBX) * paramBC + scrBX;
 	}
 	else if (scrBY == scrCY) //平底
 	{
-		float paramAB = (startY - scrAY) / (scrBY - scrAY); //线段ab
-		float paramAC = (startY - scrAY) / (scrCY - scrAY); //线段ac
+		float paramAB = (startY - scrAY) / (scrBY - scrAY); //直线ab
+		float paramAC = (startY - scrAY) / (scrCY - scrAY); //直线ac
 		x1 = (scrBX - scrAX) * paramAB + scrAX;
 		x2 = (scrCX - scrAX) * paramAC + scrAX;
 	}
 	else //常规三角形
 	{
-		float paramAB = (startY - scrAY) / (scrBY - scrAY); //线段ab
-		float paramAC = (startY - scrAY) / (scrCY - scrAY); //线段ac
-		float paramBC = (startY - scrBY) / (scrCY - scrBY); //线段bc
+		float paramAB = (startY - scrAY) / (scrBY - scrAY); //直线ab
+		float paramAC = (startY - scrAY) / (scrCY - scrAY); //直线ac
+		float paramBC = (startY - scrBY) / (scrCY - scrBY); //直线bc
 
 		//检测当前y值在不在直线AB上
-		bool bOnABLine = ((paramAB < 1.0f || FLT_IS_ZERO(paramAB)) && (paramAB > 0.0f || FLT_IS_ZERO(paramAB))) ? true : false;
+		bool bOnABLine = ((paramAB < 1.0f || FLT_EQUAL(paramAB, 1.0f)) && (paramAB > 0.0f || FLT_IS_ZERO(paramAB))) ? true : false;
 		//检测当前y值在不在直线AC上
-		bool bOnACLine = ((paramAC < 1.0f || FLT_IS_ZERO(paramAC)) && (paramAC > 0.0f || FLT_IS_ZERO(paramAC))) ? true : false;
+		bool bOnACLine = ((paramAC < 1.0f || FLT_EQUAL(paramAC, 1.0f)) && (paramAC > 0.0f || FLT_IS_ZERO(paramAC))) ? true : false;
 		//检测当前y值在不在直线BC上
-		bool bOnBCLine = ((paramBC < 1.0f || FLT_IS_ZERO(paramBC)) && (paramBC > 0.0f || FLT_IS_ZERO(paramBC))) ? true : false;
+		bool bOnBCLine = ((paramBC < 1.0f || FLT_EQUAL(paramBC, 1.0f)) && (paramBC > 0.0f || FLT_IS_ZERO(paramBC))) ? true : false;
+
 		float xAB = (scrBX - scrAX) * paramAB + scrAX;
 		float xAC = (scrCX - scrAX) * paramAC + scrAX;
 		float xBC = (scrCX - scrBX) * paramBC + scrBX;
@@ -501,7 +502,7 @@ void calculateBounds(float scrAX, float scrAY,
 		{
 			x1 = xAB;
 			x2 = xBC;
-		} 
+		}
 		else if (!bOnBCLine) //不在直线BC上
 		{
 			x1 = xAB;
@@ -512,7 +513,7 @@ void calculateBounds(float scrAX, float scrAY,
 			//随便赋值任意2条直线上的x点
 			x1 = xAC;
 			x2 = xBC;
-			
+
 			//排除2直线交点的情况
 			if (FLT_EQUAL(x1, x2))
 			{
@@ -536,7 +537,7 @@ void blend(BlendData& blendData,
 }
 
 void drawFace(FrameBuffer* pFrameBuffer, DepthBuffer* pDepthBuffer,
-	VertexShader vs, FragmentShader fs, 
+	VertexShader vs, FragmentShader fs,
 	int cullFlag, Vertex* pVertexBuffer, int count)
 {
 	//批量提交顶点组织成三角形面，批量渲染
@@ -548,7 +549,7 @@ void drawFace(FrameBuffer* pFrameBuffer, DepthBuffer* pDepthBuffer,
 }
 
 void drawFace(FrameBuffer* pFrameBuffer, DepthBuffer* pDepthBuffer,
-	VertexShader vs, FragmentShader fs, 
+	VertexShader vs, FragmentShader fs,
 	int cullFlag, Face* pFace)
 {
 	vs(pFace->_modelA, pFace->_clipA);
@@ -582,8 +583,8 @@ void drawFace(FrameBuffer* pFrameBuffer, DepthBuffer* pDepthBuffer,
 		//只有一点小于剪裁面，原三角形将被分割成2个新三角形
 		//上面已经对其中一个新三角形进行了面剔除和光栅化了，
 		//还要对第2个新三角形进行同样的操作
-		if (clipFlag == A_VERTEX_AFTER_NEAR_CLIP || 
-			clipFlag == B_VERTEX_AFTER_NEAR_CLIP || 
+		if (clipFlag == A_VERTEX_AFTER_NEAR_CLIP ||
+			clipFlag == B_VERTEX_AFTER_NEAR_CLIP ||
 			clipFlag == C_VERTEX_AFTER_NEAR_CLIP)
 		{
 			if (!cullFace(_pFace2, cullFlag))
@@ -602,8 +603,8 @@ void drawFace(FrameBuffer* pFrameBuffer, DepthBuffer* pDepthBuffer,
 	}
 }
 
-void drawPixel(FrameBuffer* pFrameBuffer, 
-	int x, int y, 
+void drawPixel(FrameBuffer* pFrameBuffer,
+	int x, int y,
 	unsigned char r, unsigned char g, unsigned char b)
 {
 	convertToScreen(pFrameBuffer->height, y);
@@ -614,7 +615,7 @@ void drawPixel(FrameBuffer* pFrameBuffer,
 }
 
 void readFrameBuffer(FrameBuffer* pFrameBuffer,
-	int x, int y, 
+	int x, int y,
 	unsigned char& r, unsigned char& g, unsigned char& b)
 {
 	convertToScreen(pFrameBuffer->height, y);
@@ -689,7 +690,7 @@ int checkFace(Face* pFace)
 	{
 		return ALL_VERTEX_AFTER_NEAR_CLIP;
 	}
-	
+
 	if (0 == iFailVertexCnt)
 	{
 		return ALL_NOT_VERTEX_AFTER_NEAR_CLIP;
@@ -701,7 +702,7 @@ int checkFace(Face* pFace)
 		{
 			return AB_VERTEX_AFTER_NEAR_CLIP;
 		}
-		
+
 		if (bFailA && bFailC)
 		{
 			return AC_VERTEX_AFTER_NEAR_CLIP;
@@ -769,16 +770,16 @@ void fix1FailFace(VertexOut failVertex, VertexOut succVertex1, VertexOut succVer
 	float inverseSucc1W = 1.0f / succVertex1.vw;
 	float inverseSucc2W = 1.0f / succVertex2.vw;
 
-	_Vector3D failVec3(failVertex.vx * inverseFailW, 
-		failVertex.vy * inverseFailW, 
+	_Vector3D failVec3(failVertex.vx * inverseFailW,
+		failVertex.vy * inverseFailW,
 		failVertex.vz * inverseFailW);
 
-	_Vector3D succ1_vec3(succVertex1.vx * inverseSucc1W, 
-		succVertex1.vy * inverseSucc1W, 
+	_Vector3D succ1_vec3(succVertex1.vx * inverseSucc1W,
+		succVertex1.vy * inverseSucc1W,
 		succVertex1.vz * inverseSucc1W);
 
-	_Vector3D succ2_vec3(succVertex2.vx * inverseSucc2W, 
-		succVertex2.vy * inverseSucc2W, 
+	_Vector3D succ2_vec3(succVertex2.vx * inverseSucc2W,
+		succVertex2.vy * inverseSucc2W,
 		succVertex2.vz * inverseSucc2W);
 
 	//求小于近剪裁面的点的直线 与 在近剪裁面内的一个点所在平面的交点
@@ -823,16 +824,16 @@ void fix2FailFace(VertexOut failVertex1, VertexOut failVertex2, VertexOut succVe
 	float invFail2W = 1.0f / failVertex2.vw;
 	float invSuccW = 1.0f / succVertex.vw;
 
-	_Vector3D fail1_vec3(failVertex1.vx * invFail1W, 
-		failVertex1.vy * invFail1W, 
+	_Vector3D fail1_vec3(failVertex1.vx * invFail1W,
+		failVertex1.vy * invFail1W,
 		failVertex1.vz * invFail1W);
 
-	_Vector3D fail2_vec3(failVertex2.vx * invFail2W, 
-		failVertex2.vy * invFail2W, 
+	_Vector3D fail2_vec3(failVertex2.vx * invFail2W,
+		failVertex2.vy * invFail2W,
 		failVertex2.vz * invFail2W);
 
-	_Vector3D succ_vec3(succVertex.vx * invSuccW, 
-		succVertex.vy * invSuccW, 
+	_Vector3D succ_vec3(succVertex.vx * invSuccW,
+		succVertex.vy * invSuccW,
 		succVertex.vz * invSuccW);
 
 	float param1 = calZPara(fail1_vec3.GetZ(), succ_vec3.GetZ(), -_clipNear);
@@ -842,7 +843,7 @@ void fix2FailFace(VertexOut failVertex1, VertexOut failVertex2, VertexOut succVe
 	float len2 = (succ_vec3 - interPoint1).GetLength();
 	float sum = len1 + len2;
 	float invSum = 1.0f / sum;
-	len1 *= invSum; 
+	len1 *= invSum;
 	len2 *= invSum;
 
 	VertexOut newVertex1;
@@ -854,7 +855,7 @@ void fix2FailFace(VertexOut failVertex1, VertexOut failVertex2, VertexOut succVe
 	len2 = (succ_vec3 - interPoint2).GetLength();
 	sum = len1 + len2;
 	invSum = 1.0f / sum;
-	len1 *= invSum; 
+	len1 *= invSum;
 	len2 *= invSum;
 
 	VertexOut newVertex2;
@@ -863,8 +864,8 @@ void fix2FailFace(VertexOut failVertex1, VertexOut failVertex2, VertexOut succVe
 	_pFace1->copy2FaceOut(succVertex, newVertex1, newVertex2);
 }
 
-void interpolate2v(float pa, float pb, 
-	VertexOut vertex1, VertexOut vertex2, 
+void interpolate2v(float pa, float pb,
+	VertexOut vertex1, VertexOut vertex2,
 	VertexOut& result)
 {
 	//插值计算所有新坐标点
@@ -886,7 +887,7 @@ void interpolate2v(float pa, float pb,
 	interpolate2f(pa, pb, vertex1.nx, vertex2.nx, result.nx);
 	interpolate2f(pa, pb, vertex1.ny, vertex2.ny, result.ny);
 	interpolate2f(pa, pb, vertex1.nz, vertex2.nz, result.nz);
-	
+
 	interpolate2f(pa, pb, vertex1.s, vertex2.s, result.s);
 	interpolate2f(pa, pb, vertex1.t, vertex2.t, result.t);
 }

@@ -1,6 +1,5 @@
-#ifndef  __SELF_VECTOR2D__H__
-#define  __SELF_VECTOR2D__H__
-
+#ifndef  __SELF__Vector2D__H__
+#define  __SELF__Vector2D__H__
 
 class _Vector2D
 {
@@ -47,7 +46,7 @@ public:
 
 	//强制转换
 	operator float*() const{ return (float*)this; }
-	operator const float*() const{ return (const float*)this;  }
+	operator const float*() const{ return (const float*)this; }
 
 	//点乘
 	float Dot(const _Vector2D& v2)const;
@@ -56,4 +55,5 @@ private:
 	float _x;
 	float _y;
 };
+
 #endif

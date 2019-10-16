@@ -16,6 +16,24 @@
     <Filter Include="Math">
       <UniqueIdentifier>{b6a83236-021b-4f96-938d-e13216a31869}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{e234af8d-6faa-4f4a-be05-97998971e598}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Face">
+      <UniqueIdentifier>{df4757db-3fec-4c49-aa40-7c3a3bc78887}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphic">
+      <UniqueIdentifier>{802cc15f-017c-48f0-a52a-e3a183e299ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Key">
+      <UniqueIdentifier>{d65b2009-fb33-44b4-b781-8218df2eb2c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sight">
+      <UniqueIdentifier>{85e277b5-dda8-407d-98a4-899d2cc8748a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Geometric">
+      <UniqueIdentifier>{76fc1de6-eeea-4ec0-a09d-f7e27684f2c9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -33,8 +51,59 @@
     <ClCompile Include="Math\SelfVector4D.cpp">
       <Filter>Math</Filter>
     </ClCompile>
-    <ClCompile Include="Color.cpp">
+    <ClCompile Include="Utils\Utils.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Color.cpp">
       <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Plane.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Face\Face.cpp">
+      <Filter>Face</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\DataType.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphic\Graphic.cpp">
+      <Filter>Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphic\Sampler.cpp">
+      <Filter>Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Quaternions.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphic\BmpLoader.cpp">
+      <Filter>Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphic\Texture.cpp">
+      <Filter>Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphic\Frame.cpp">
+      <Filter>Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphic\Shader.cpp">
+      <Filter>Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphic\Shadow.cpp">
+      <Filter>Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Key\Key.cpp">
+      <Filter>Key</Filter>
+    </ClCompile>
+    <ClCompile Include="Sight\Sight.cpp">
+      <Filter>Sight</Filter>
+    </ClCompile>
+    <ClCompile Include="Geometric\Cube.cpp">
+      <Filter>Geometric</Filter>
+    </ClCompile>
+    <ClCompile Include="Geometric\Square.cpp">
+      <Filter>Geometric</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphic\Object.cpp">
+      <Filter>Graphic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -53,8 +122,65 @@
     <ClInclude Include="Math\SelfVector4D.h">
       <Filter>Math</Filter>
     </ClInclude>
-    <ClInclude Include="Color.h">
+    <ClInclude Include="Utils\Utils.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Color.h">
       <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Plane.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\Constants.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\DataType.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\Tools.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Face\Face.h">
+      <Filter>Face</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphic\Graphic.h">
+      <Filter>Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphic\Sampler.h">
+      <Filter>Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Quaternions.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphic\BmpLoader.h">
+      <Filter>Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphic\Texture.h">
+      <Filter>Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphic\Frame.h">
+      <Filter>Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphic\Shader.h">
+      <Filter>Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphic\Shadow.h">
+      <Filter>Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Key\Key.h">
+      <Filter>Key</Filter>
+    </ClInclude>
+    <ClInclude Include="Sight\Sight.h">
+      <Filter>Sight</Filter>
+    </ClInclude>
+    <ClInclude Include="Geometric\Cube.h">
+      <Filter>Geometric</Filter>
+    </ClInclude>
+    <ClInclude Include="Geometric\Square.h">
+      <Filter>Geometric</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphic\Object.h">
+      <Filter>Graphic</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

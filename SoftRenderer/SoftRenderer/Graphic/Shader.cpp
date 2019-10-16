@@ -16,8 +16,8 @@ _Vector4D _ambient;
 _Vector4D _diffuse;
 _Vector4D _ambientMat;
 _Vector4D _diffuseMat;
-Sampler* _currTexture;
-Sampler* _depthTexture;
+Sampler* _currTexture = nullptr;
+Sampler* _depthTexture = nullptr;
 
 void vertexShader(Vertex input, VertexOut& output)
 {
@@ -79,7 +79,7 @@ void fragmentShader(Fragment input, FragmentOut& output)
 	_Vector4D shadowVert(input.wx, input.wy, input.wz, input.ww);
 	shadowVert = _lightProjectionMatrix * _lightViewMatrix * shadowVert;
 
-	//执行透视除法
+	//执行透视除法归一化
 	float inverseShadowVertW = 1.0f / shadowVert.GetW();
 	shadowVert.SetX(shadowVert.GetX() * inverseShadowVertW);
 	shadowVert.SetY(shadowVert.GetY() * inverseShadowVertW);
@@ -108,14 +108,15 @@ void fragmentShader(Fragment input, FragmentOut& output)
 
 		//取深度贴图中采样最近的深度
 		float depthStore = _depthTexture->texture2D(shadowVert.GetX(), shadowVert.GetY()).GetX();
-
+		/*
 		//阴影偏移,防止片元被误认为在表面之下
 		//float offset = 0.005f;
 		//根据表面朝向光线的角度更改偏移量
 		float value = 0.05f * (1.0f - worldLightDir.Dot(worldNormal));
 		float offset = max(value, 0.005f);
 		//当前片元在光源视角下的深度
-		float depthNow = shadowVert.GetZ() - offset;
+		float depthNow = shadowVert.GetZ() + offset;
+
 		//如果当前片元的深度值是否大于从深度贴图中采样得到的最近深度值，是，当前片元就在阴影中
 		//shadowFactor = depthNow > depthStore ? 1.0f : 0.0f;
 		//这种会因为深度贴图固定的解析度，导致多个片元对应于一个纹理像素，会产生锯齿。
@@ -132,10 +133,10 @@ void fragmentShader(Fragment input, FragmentOut& output)
 		{
 			for (int j = -1; j <= 1; j++)
 			{
-				_Vector2D tmpVec(i, j);
+				_Vector2D tmpVec((float)i, (float)j);
 				_Vector2D texCoord = shadowVertXY + tmpVec * texelSizeVec;
 				float pcfDepth = _depthTexture->texture2D(texCoord.GetX(), texCoord.GetY()).GetX();
-				shadowFactor += depthNow > pcfDepth ? 1.0f : 0.0f;
+				shadowFactor += depthNow - offset > pcfDepth ? 1.0f : 0.0f;
 			}
 		}
 
@@ -148,7 +149,17 @@ void fragmentShader(Fragment input, FragmentOut& output)
 		if (shadowVert.GetZ() > 1.0f)
 		{
 			shadowFactor = 0.0f;
+		}*/
+
+		//**********注掉上面PCF算法是因为 太卡了!!!**********************//
+
+		float offset = 0.00001f;
+		float depthNow = shadowVert.GetZ() + offset;
+		if (depthNow > depthStore)
+		{
+			shadowFactor = 1.0f;
 		}
+
 	}
 
 	//世界空间下 光线方向向量与法线的点积，用于后续计算漫反射光照
@@ -163,7 +174,7 @@ void fragmentShader(Fragment input, FragmentOut& output)
 	_Vector4D texColor(1.0f, 1.0f, 1.0f, 1.0f);
 	if (_currTexture)
 	{
-		texColor = _currTexture->texture2D(input.s, input.t);// *1.2f;
+		texColor = _currTexture->texture2D(input.s, input.t);
 	}
 
 	//最终的片元颜色
@@ -187,9 +198,11 @@ void simpleFragShader(Fragment input, FragmentOut& output)
 
 	//光照：环境光 + 漫反射光
 	_Vector4D lightColor = mul(_ambient, _ambientMat) + mul(_diffuse, _diffuseMat) * nDotL;
-	_Vector4D texColor(1.0f, 1.0f, 0.0f, 1.0f);
-	//texColor *= 1.2f;
-
+	_Vector4D texColor(1.0f, 1.0f, 1.0f, 1.0f);
+	if (_currTexture)
+	{
+		texColor = _currTexture->texture2D(input.s, input.t);
+	}
 	//最终输出的颜色分量
 	output.r = texColor.GetX() * lightColor.GetX();
 	output.g = texColor.GetY() * lightColor.GetY();
@@ -236,4 +249,9 @@ void storeFragShader(Fragment input, FragmentOut& output)
 	output.g = input.ndcZ * 0.5f + 0.5f;
 	output.b = input.ndcZ * 0.5f + 0.5f;
 	output.a = input.ndcZ * 0.5f + 0.5f;
+}
+
+void setAmbientMatFactor(const _Vector4D& mat)
+{
+	_ambientMat = mat;
 }

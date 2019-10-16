@@ -20,7 +20,7 @@ public:
 	int getHeight();
 	unsigned char* getData(){ return _data; }
 	bool loadBitmap(const char* fileName);
-	
+
 private:
 	unsigned char* _header; //文件头
 	unsigned int _dataPos; //读取位置

@@ -13,6 +13,8 @@ public:
 	_Vector4D texture2D(float s, float t);
 	void setImgData(int idx, unsigned char ch);
 	unsigned char* getImageData(){ return _imgData; }
+	int getWidth(){ return _width; }
+	int getHeight(){ return _height; }
 
 private:
 	int _width;

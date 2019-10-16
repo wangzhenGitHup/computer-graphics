@@ -11,8 +11,8 @@ Texture::Texture(const char* src)
 	}
 
 	_sampler = new Sampler(pBmpLoader->getWidth(), pBmpLoader->getHeight());
-	memcpy(_sampler->getImageData(), 
-		pBmpLoader->getData(), 
+	memcpy(_sampler->getImageData(),
+		pBmpLoader->getData(),
 		pBmpLoader->getWidth() * pBmpLoader->getHeight() * 3 * sizeof(unsigned char));
 	delete pBmpLoader;
 }

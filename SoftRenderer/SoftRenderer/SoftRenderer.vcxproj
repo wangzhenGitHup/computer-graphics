@@ -52,10 +52,10 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>G:\GitWork\computer-graphics\SoftRenderer\SoftRenderer\Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>G:\GitWork\computer-graphics\SoftRenderer\SoftRenderer\Geometric;G:\GitWork\computer-graphics\SoftRenderer\SoftRenderer\Sight;G:\GitWork\computer-graphics\SoftRenderer\SoftRenderer\Key;G:\GitWork\computer-graphics\SoftRenderer\SoftRenderer\Graphic;G:\GitWork\computer-graphics\SoftRenderer\SoftRenderer\Face;G:\GitWork\computer-graphics\SoftRenderer\SoftRenderer\Utils;G:\GitWork\computer-graphics\SoftRenderer\SoftRenderer\Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -77,20 +77,56 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Color.cpp" />
+    <ClCompile Include="Face\Face.cpp" />
+    <ClCompile Include="Geometric\Cube.cpp" />
+    <ClCompile Include="Geometric\Square.cpp" />
+    <ClCompile Include="Graphic\BmpLoader.cpp" />
+    <ClCompile Include="Graphic\Frame.cpp" />
+    <ClCompile Include="Graphic\Graphic.cpp" />
+    <ClCompile Include="Graphic\Object.cpp" />
+    <ClCompile Include="Graphic\Sampler.cpp" />
+    <ClCompile Include="Graphic\Shader.cpp" />
+    <ClCompile Include="Graphic\Shadow.cpp" />
+    <ClCompile Include="Graphic\Texture.cpp" />
+    <ClCompile Include="Key\Key.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Math\Color.cpp" />
+    <ClCompile Include="Math\Plane.cpp" />
+    <ClCompile Include="Math\Quaternions.cpp" />
     <ClCompile Include="Math\SelfMatrix4x4.cpp" />
     <ClCompile Include="Math\SelfVector2D.cpp" />
     <ClCompile Include="Math\SelfVector3D.cpp" />
     <ClCompile Include="Math\SelfVector4D.cpp" />
+    <ClCompile Include="Sight\Sight.cpp" />
+    <ClCompile Include="Utils\DataType.cpp" />
+    <ClCompile Include="Utils\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Color.h" />
+    <ClInclude Include="Face\Face.h" />
+    <ClInclude Include="Geometric\Cube.h" />
+    <ClInclude Include="Geometric\Square.h" />
+    <ClInclude Include="Graphic\BmpLoader.h" />
+    <ClInclude Include="Graphic\Frame.h" />
+    <ClInclude Include="Graphic\Graphic.h" />
+    <ClInclude Include="Graphic\Object.h" />
+    <ClInclude Include="Graphic\Sampler.h" />
+    <ClInclude Include="Graphic\Shader.h" />
+    <ClInclude Include="Graphic\Shadow.h" />
+    <ClInclude Include="Graphic\Texture.h" />
+    <ClInclude Include="Key\Key.h" />
+    <ClInclude Include="Math\Color.h" />
+    <ClInclude Include="Math\Plane.h" />
+    <ClInclude Include="Math\Quaternions.h" />
     <ClInclude Include="Math\SelfMaths.h" />
     <ClInclude Include="Math\SelfMatrix4x4.h" />
     <ClInclude Include="Math\SelfVector2D.h" />
     <ClInclude Include="Math\SelfVector3D.h" />
     <ClInclude Include="Math\SelfVector4D.h" />
+    <ClInclude Include="Sight\Sight.h" />
+    <ClInclude Include="Utils\Constants.h" />
+    <ClInclude Include="Utils\DataType.h" />
+    <ClInclude Include="Utils\Tools.h" />
+    <ClInclude Include="Utils\Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

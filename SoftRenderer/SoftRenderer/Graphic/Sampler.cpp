@@ -30,7 +30,7 @@ _Vector4D Sampler::texture2D(float s, float t)
 	int uNext = (iu + 1) <= (_width - 1) ? iu + 1 : iu;
 	int vNext = (iv + 1) <= (_height - 1) ? iv + 1 : iv;
 
-	//上面线性采用损失的小数点部分
+	//上面线性采样损失的小数点部分
 	float uNextPer = u - iu;
 	float vNextPer = v - iv;
 	float uPer = 1.0f - uNextPer;
@@ -42,7 +42,7 @@ _Vector4D Sampler::texture2D(float s, float t)
 	float x = (float)(_imgData[imgIdx] * INV_SCALE);
 	float y = (float)(_imgData[imgIdx + 1] * INV_SCALE);
 	float z = (float)(_imgData[imgIdx + 2] * INV_SCALE);
-	
+
 	color.Set(x, y, z, 1.0f);
 
 	//周围纹理坐标所在纹理数据数组的下标值
@@ -64,26 +64,26 @@ _Vector4D Sampler::texture2D(float s, float t)
 
 	colorNextUV.SetX((float)(_imgData[imgIdxNextUV] * INV_SCALE));
 	colorNextUV.SetY((float)(_imgData[imgIdxNextUV + 1] * INV_SCALE));
-	colorNextV.SetZ((float)(_imgData[imgIdxNextUV + 2] * INV_SCALE));
+	colorNextUV.SetZ((float)(_imgData[imgIdxNextUV + 2] * INV_SCALE));
 
 	//按小数部分的值进行比例计算混合，得到最终采样的纹理颜色值
-	color.SetX(color.GetX() * uPer * vPer + 
-		colorNextU.GetX() * uNextPer * vNextPer + 
-		colorNextV.GetX() * vNextPer * vNextPer + 
-		colorNextUV.GetX() * uNextPer * vNextPer);
+	float tmpX = color.GetX()*uPer * vPer + 
+		colorNextU.GetX() * uNextPer * vPer + 
+		colorNextV.GetX() * uPer * vNextPer + 
+		colorNextUV.GetX() * uNextPer * vNextPer;
 
-	color.SetY(color.GetY() * uPer * vPer +
-		colorNextU.GetY() * uNextPer * vNextPer +
-		colorNextV.GetY() * vNextPer * vNextPer +
-		colorNextUV.GetY() * uNextPer * vNextPer);
-	
-	color.SetZ(color.GetZ() * uPer * vPer +
-		colorNextU.GetZ() * uNextPer * vNextPer +
-		colorNextV.GetZ() * vNextPer * vNextPer +
-		colorNextUV.GetZ() * uNextPer * vNextPer);
+	float tmpY = color.GetY() * uPer * vPer + 
+		colorNextU.GetY() * uNextPer*vPer + 
+		colorNextV.GetY() * uPer * vNextPer + 
+		colorNextUV.GetY() * uNextPer * vNextPer;
 
+	float tmpZ = color.GetZ() * uPer * vPer + 
+		colorNextU.GetZ() * uNextPer * vPer + 
+		colorNextV.GetZ() * uPer * vNextPer + 
+		colorNextUV.GetZ()*uNextPer * vNextPer;
+
+	color.Set(tmpX, tmpY, tmpZ, 1.0);
 	return color;
-
 }
 
 void Sampler::setImgData(int idx, unsigned char ch)

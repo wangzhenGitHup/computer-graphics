@@ -11,7 +11,7 @@ union QuaternionsUnion
 	float elements[4]; //按w, x, y, z的顺序以数组方式存储
 
 	//以浮点数和向量的方式访问
-	struct  
+	struct
 	{
 		float q0; //实部
 		_Vector3D qv; //虚部(x*i + y*j + z*k)
@@ -31,7 +31,7 @@ union QuaternionsUnion
 class Quaternions
 {
 public:
-	
+
 
 private:
 	QuaternionsUnion _data;
