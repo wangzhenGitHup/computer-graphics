@@ -657,7 +657,10 @@ void initFixFace()
 void releaseFixFace()
 {
 	delete _pFace1;
+	_pFace1 = nullptr;
+
 	delete _pFace2;
+	_pFace2 = nullptr;
 }
 
 int checkFace(Face* pFace)

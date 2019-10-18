@@ -38,7 +38,7 @@ void Plane::Normalized()
 
 float Plane::GetDistance(const _Vector3D& vec) const
 {
-	//点到平面的距离就是某向量在平面法线上的投影
+	//向量到平面的距离就是某向量在平面法线上的投影
 	// 向量p1在平面法线n上的投影为: p1.n =  p1.x * n.x + p1.y * n.y + p1.z * n.z;
 	return vec.GetX() * _normal.GetX() + vec.GetY() * _normal.GetY() + vec.GetZ() * _normal.GetZ();
 }

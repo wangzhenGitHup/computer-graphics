@@ -8,6 +8,7 @@ Square::Square()
 Square::~Square()
 {
 	delete[]_verts;
+	_verts = nullptr;
 }
 
 void Square::initVerts()

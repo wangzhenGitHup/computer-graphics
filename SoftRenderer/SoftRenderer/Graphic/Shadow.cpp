@@ -25,6 +25,8 @@ void initShadow(int width, int height)
 void releaseShadow()
 {
 	delete _depthTexture;
+	_depthTexture = nullptr;
+
 	releaseDevice(&_pShadowFrame, &_pShadowDepth);
 }
 

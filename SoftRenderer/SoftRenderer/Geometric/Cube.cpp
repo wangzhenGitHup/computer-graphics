@@ -8,6 +8,7 @@ Cube::Cube()
 Cube::~Cube()
 {
 	delete[] _verts;
+	_verts = nullptr;
 }
 
 void Cube::initVertex()

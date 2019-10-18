@@ -37,6 +37,7 @@ void initCube()
 void releaseCube()
 {
 	delete _cube;
+	_cube = nullptr;
 }
 
 void renderCube(bool bWithShadow)
@@ -100,6 +101,7 @@ void initSquare()
 void releaseSquare()
 {
 	delete _square;
+	_square = nullptr;
 }
 
 void renderSquare(bool bWithShadow)
