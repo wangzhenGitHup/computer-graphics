@@ -33,7 +33,6 @@ void draw()
 
 	//再渲染一个普通的立方体
 	setRenderCubeData(30.0f, 1.0f, _Vector3D(-4.0f, 2.0f, 0.0f));
-	
 	//设置材质
 	setAmbientMatFactor(_Vector4D(1.0f, 1.0f, 0.0f, 1.0f));
 	renderSimpleCube();
@@ -66,6 +65,7 @@ void release()
 {
 	releaseKeys();
 	delete _sight;
+	_sight = nullptr;
 
 	releaseSquare();
 	releaseCube();
