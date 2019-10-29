@@ -698,9 +698,7 @@ void Matrix4x4::SetOrtho(float left, float right, float bottom, float top, float
 
 	_elements[5] = 2.0f / (top - bottom);
 
-	//#issue 这块 按照推导的公式的应该是1.0，但是阴影会有问题，改成-2.0阴影效果会好很多，暂且没想到具体原因，待完善
-	_elements[10] = -2.0f / (far - near);
-	//_elements[10] = 1.0f / (far - near);
+	_elements[10] = 1.0f / (far - near);
 
 	_elements[12] = -(right + left) / (right - left);
 	_elements[13] = -(top + bottom) / (top - bottom);

@@ -33,15 +33,15 @@ Matrix4x4 lookAt(float eyeX, float eyeY, float eyeZ,
 
 	mat.SetElement(4, u.GetY());
 	mat.SetElement(5, v.GetY());
-	mat.SetElement(6, -n.GetY());
+	mat.SetElement(6, n.GetY());
 
 	mat.SetElement(8, u.GetZ());
 	mat.SetElement(9, v.GetZ());
-	mat.SetElement(10, -n.GetZ());
+	mat.SetElement(10, n.GetZ());
 
 	mat.SetElement(12, -u.Dot(eye));
 	mat.SetElement(13, -v.Dot(eye));
-	mat.SetElement(14, n.Dot(eye));
+	mat.SetElement(14, -n.Dot(eye));
 	return mat;
 }
 
