@@ -564,13 +564,14 @@ void drawFace(FrameBuffer* pFrameBuffer, DepthBuffer* pDepthBuffer,
 
 	//检测三角形3个顶点与近剪裁面的关系
 	int clipFlag = checkFace(pFace);
+
+	if (clipFlag == ALL_VERTEX_AFTER_NEAR_CLIP)
+	{
+		return;
+	}
+
 	if (clipFlag != ALL_NOT_VERTEX_AFTER_NEAR_CLIP)
 	{
-		if (clipFlag == ALL_VERTEX_AFTER_NEAR_CLIP)
-		{
-			return;
-		}
-
 		//重新划分原三角形
 		fixFace(pFace, clipFlag);
 		if (!cullFace(_pFace1, cullFlag))
