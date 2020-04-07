@@ -79,7 +79,7 @@ void fragmentShader(Fragment input, FragmentOut& output)
 	_Vector4D shadowVert(input.wx, input.wy, input.wz, input.ww);
 	shadowVert = _lightProjectionMatrix * _lightViewMatrix * shadowVert;
 
-	//执行透视除法归一化
+	//执行透视除法
 	float inverseShadowVertW = 1.0f / shadowVert.GetW();
 	shadowVert.SetX(shadowVert.GetX() * inverseShadowVertW);
 	shadowVert.SetY(shadowVert.GetY() * inverseShadowVertW);
